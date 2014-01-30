@@ -1,7 +1,7 @@
 CodePath_Android_Bootcamp
 =========================
 
-Project sequence:
+Projects sequence:
 
 1. ToDoApp - has file persistence
 2. FirstDemo - Introduces custom layouts and adapters to create customized a list view
