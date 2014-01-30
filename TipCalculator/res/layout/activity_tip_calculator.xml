@@ -1,0 +1,99 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:label="@string/app_name"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:windowSoftInputMode="stateVisible"
+    tools:context=".TipCalculatorActivity" >
+
+    <EditText
+        android:id="@+id/etTotalAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:ems="10"
+        android:imeOptions="actionDone"
+        android:inputType="numberDecimal" >
+
+        <requestFocus />
+    </EditText>
+    
+    <TextView
+        android:id="@+id/lblTipAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/lblTip"
+        android:layout_alignBottom="@+id/lblTip"
+        android:layout_alignRight="@+id/btnTwentyPercent"
+        android:text="@string/default_tip_amount"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/lblTip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/btnTenPercent"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="86dp"
+        android:text="@string/tip_label"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <Button
+        android:id="@+id/btnTenPercent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/etTotalAmount"
+        android:layout_below="@+id/etTotalAmount"
+        android:layout_marginLeft="33dp"
+        android:layout_marginTop="89dp"
+        android:onClick="onTipClick"
+        android:text="@string/ten_percent" />
+    
+    <Button
+        android:id="@+id/btnFifteenPercent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/btnTenPercent"
+        android:layout_alignBottom="@+id/btnTenPercent"
+        android:layout_toRightOf="@+id/btnTenPercent"
+        android:onClick="onTipClick"
+        android:text="@string/fifteen_percent" />
+    
+    <Button
+        android:id="@+id/btnTwentyPercent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/btnFifteenPercent"
+        android:layout_alignBottom="@+id/btnFifteenPercent"
+        android:layout_toRightOf="@+id/btnFifteenPercent"
+        android:onClick="onTipClick"
+        android:text="@string/twenty_percent" />
+
+    <TextView
+        android:id="@+id/lblCustomTipAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/etTotalAmount"
+        android:layout_below="@+id/btnFifteenPercent"
+        android:layout_marginTop="46dp"
+        android:text="@string/custom_tip_label"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <EditText
+        android:id="@+id/etCustomTipAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/lblCustomTipAmount"
+        android:layout_alignRight="@+id/btnTwentyPercent"
+        android:layout_marginLeft="28dp"
+        android:layout_toRightOf="@+id/lblCustomTipAmount"
+        android:ems="10"
+        android:imeOptions="actionDone"
+        android:inputType="number" />
+
+</RelativeLayout>
