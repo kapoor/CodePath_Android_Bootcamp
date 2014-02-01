@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/miSettings"
+        android:icon="@drawable/ic_action_preferences"
+        android:showAsAction="always"
+        android:onClick="onPreferencesAction"
+        android:title="@string/search" />
+
+</menu>
