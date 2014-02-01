@@ -1,0 +1,97 @@
+package com.example.googleimagesearcher;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Environment;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ShareActionProvider;
+import android.widget.Toast;
+
+import com.example.googleimagesearcher.util.ImageResult;
+import com.loopj.android.image.SmartImageView;
+
+public class ImageDisplayActivity extends Activity {
+	
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_image_display);
+        
+        ImageResult result = (ImageResult) getIntent().getSerializableExtra("result");
+        SmartImageView sivImage = (SmartImageView) findViewById(R.id.sivResult);
+        sivImage.setImageUrl(result.getFullUrl());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.image_display, menu);
+        
+        MenuItem shareItem = (MenuItem) menu.findItem(R.id.miShare);
+        
+        // Fetch and store ShareActionProvider
+ 		ShareActionProvider miShareAction = new ShareActionProvider(ImageDisplayActivity.this);
+        miShareAction = (ShareActionProvider) shareItem.getActionProvider();
+
+        shareItem(miShareAction);
+        
+        // Return true to display menu
+        return true;
+    }
+    
+    public void onClose(View v) {
+        finish();
+    }
+    
+	public void shareItem(ShareActionProvider miShareAction) {
+		
+		Intent shareIntent1 = new Intent(Intent.ACTION_SEND);
+		shareIntent1.setAction(Intent.ACTION_SEND);
+		shareIntent1.setType("text/plain");
+		shareIntent1.putExtra(Intent.EXTRA_TEXT, "Text to share");
+		
+		miShareAction.setShareIntent(shareIntent1);
+		
+		return;
+		
+		// Get access to bitmap image from view
+		SmartImageView ivImage = (SmartImageView) findViewById(R.id.sivResult);
+		Bitmap bitmap = ((BitmapDrawable) ivImage.getDrawable()).getBitmap();
+		
+		// Write image to default external storage directory
+		Uri bmpUri = null;
+		try {
+			File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "share_image.png");
+			FileOutputStream out = new FileOutputStream(file);
+			bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
+			out.close();
+			bmpUri = Uri.fromFile(file);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		if (bmpUri != null) {
+			
+			// Construct a ShareIntent with link to image
+			Intent shareIntent = new Intent(Intent.ACTION_SEND);
+			shareIntent.setAction(Intent.ACTION_SEND);
+			shareIntent.setType("image/*");
+			shareIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
+			
+			// Attach share event to the menu item provider
+			miShareAction.setShareIntent(shareIntent);
+		} else {
+			Toast.makeText(this, getString(R.string.image_could_not_be_shared), Toast.LENGTH_SHORT).show();
+		}
+	}
+}

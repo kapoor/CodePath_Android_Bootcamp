@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Grid Image Searcher</string>
+    <string name="action_preferences">Preferences</string>
+
+    <!-- Search Activity -->
+    <string name="query_hint">Enter image search</string>
+    <string name="search">Search</string>
+    <string name="invalid_query">Please enter a valid search query</string>
+    <string name="unexpected_error">An unexpected error occurred, please retry</string>
+    
+    <!-- Preferences Activity -->
+    <string name="search_options">Advanced search options</string>
+    <string name="save">Save</string>
+    <string name="image_size">Image Size</string>
+    <string name="color_filter">Color Filter</string>
+    <string name="image_type">Image Type</string>
+    <string name="site_filter">Site Filter</string>
+    <string name="google_dot_com">google.com</string>
+    <string name="enter_valid_site_filter">Please enter a valid url for</string>
+    
+    	<string-array name="image_sizes">
+    	    <item>icon</item>
+			<item>small</item>
+			<item>medium</item>
+			<item>large</item>
+			<item>xlarge</item>
+			<item>xxlarge</item>
+			<item>huge</item>
+    	</string-array>
+    	
+    	<string-array name="image_colors">
+    	    <item>black</item>
+			<item>blue</item>
+			<item>brown</item>
+			<item>gray</item>
+			<item>green</item>
+			<item>orange</item>
+			<item>pink</item>
+			<item>purple</item>
+			<item>red</item>
+			<item>teal</item>
+			<item>white</item>
+			<item>yellow</item>
+    	</string-array>
+    	
+    	<string-array name="image_types">
+    	    <item>face</item>
+			<item>photo</item>
+			<item>clipart</item>
+			<item>lineart</item>
+    	</string-array>
+    	
+    <!-- Image Display Activity -->
+    <string name="close">Close</string>
+    <string name="share">Share</string>
+    <string name="image_could_not_be_shared">Sorry, the image could not be shared!</string>
+    
+</resources>

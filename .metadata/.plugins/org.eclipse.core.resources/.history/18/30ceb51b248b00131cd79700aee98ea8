@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <item
+        android:id="@+id/miShare"
+        android:icon="@drawable/ic_action_share"
+        android:showAsAction="always"
+        android:title="@string/share"
+        android:actionProviderClass="android.widget.ShareActionProvider" />
+    
+</menu>
