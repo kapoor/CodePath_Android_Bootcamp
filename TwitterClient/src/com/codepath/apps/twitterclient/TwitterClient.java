@@ -4,10 +4,10 @@ import org.scribe.builder.api.Api;
 import org.scribe.builder.api.TwitterApi;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.codepath.oauth.OAuthBaseClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
 
 /*
  * 
@@ -22,6 +22,8 @@ import com.loopj.android.http.RequestParams;
  * 
  */
 public class TwitterClient extends OAuthBaseClient {
+	public static final String LOG_TAG = TwitterClient.class.getName();
+
     public static final Class<? extends Api> REST_API_CLASS = TwitterApi.class; // Change this
     public static final String REST_URL = "https://api.twitter.com/1.1"; // Change this, base API URL
     public static final String REST_CONSUMER_KEY = "xhOfbD3N4qKtdh25jDY5g";       // Change this
@@ -32,15 +34,23 @@ public class TwitterClient extends OAuthBaseClient {
         super(context, REST_API_CLASS, REST_URL, REST_CONSUMER_KEY, REST_CONSUMER_SECRET, REST_CALLBACK_URL);
     }
     
-    // CHANGE THIS
-    // DEFINE METHODS for different API endpoints here
-    public void getInterestingnessList(AsyncHttpResponseHandler handler) {
-        String apiUrl = getApiUrl("?nojsoncallback=1&method=flickr.interestingness.getList");
-        // Can specify query string params directly or through RequestParams.
-        RequestParams params = new RequestParams();
-        params.put("format", "json");
-        client.get(apiUrl, params, handler);
+    
+    public void getHomeTimeline(long maxId, AsyncHttpResponseHandler handler) {
+    	
+    	/*
+    		String apiUrl = getApiUrl("?nojsoncallback=1&method=flickr.interestingness.getList");
+        	// Can specify query string params directly or through RequestParams.
+        	RequestParams params = new RequestParams();
+        	params.put("format", "json");
+        	client.get(apiUrl, params, handler);
+    	 */
+    	
+    	// Get 21 tweets the second time because the tweet with maxId will be returned back
+    	String url = getApiUrl("statuses/home_timeline.json" + (maxId == -1 ? "" : "?count=21&max_id=" + maxId));
+    	Log.d(LOG_TAG, "URL is = " + url);
+    	client.get(url, null, handler);
     }
+
     
     /* 1. Define the endpoint URL with getApiUrl and pass a relative path to the endpoint
      * 	  i.e getApiUrl("statuses/home_timeline.json");

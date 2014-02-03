@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Rest Client Template</string>
+    <string name="app_name">Twitter Client</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_photos">Flickr Photos</string>
     <string name="login_label">Log in</string>
+    <string name="title_activity_timeline">TimelineActivity</string>
     
+    <string name="could_not_get_tweets">Sorry, could not get tweets!</string>
 
 </resources>
