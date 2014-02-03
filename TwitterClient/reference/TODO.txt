@@ -19,6 +19,12 @@ User Stories:
     - Tweets are persisted into sqlite and displayed from the local DB
 
 
+TODO:
+
+Consider adding progress bars whenever you can (or use the built-in actionbar progress bar)
+    https://github.com/thecodepath/android_guides/wiki/Handling-ProgressBars#actionbar-progress-bar
+
+
 Student Learning Actions:
 
 - Explore the OAuth HTTP Client for accessing authenticated APIs

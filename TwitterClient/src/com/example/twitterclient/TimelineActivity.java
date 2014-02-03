@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.twitterclient.models.Tweet;
@@ -20,15 +19,17 @@ import com.example.twitterclient.models.User;
 import com.example.twitterclient.util.EndlessScrollListener;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
+import eu.erikw.PullToRefreshListView;
+import eu.erikw.PullToRefreshListView.OnRefreshListener;
+
 public class TimelineActivity extends Activity {
 
 	// Constants
 	public static final String LOG_TAG = TimelineActivity.class.getName();
 	private static int REQUEST_CODE = 1;
 
-
     // Views
-    private ListView lvTweets;
+    private PullToRefreshListView lvTweets;
     
     // Adapters
     private TweetsAdapter tweetsAdapter;
@@ -56,7 +57,24 @@ public class TimelineActivity extends Activity {
 	
     
     private void setupViews() {
-    	lvTweets = (ListView) findViewById(R.id.lvTweets);
+    	//lvTweets = (ListView) findViewById(R.id.lvTweets);
+    	
+    	lvTweets = (PullToRefreshListView) findViewById(R.id.lvTweets);
+        // Set a listener to be invoked when the list should be refreshed.
+        lvTweets.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+            	// Since this is a reload, reset the parameters to their initial state
+            	isRefreshAction = false;
+            	minId = maxId = -1;
+            	
+                // Refresh the list contents
+            	loadTweets();
+
+            	// Make sure to always call listView.onRefreshComplete() when loading is done.
+            	lvTweets.onRefreshComplete();
+            }
+        });
     }
     
     private void setupAdapters() {
@@ -151,7 +169,7 @@ public class TimelineActivity extends Activity {
 
     public void onRefreshAction(MenuItem mi) {
     	isRefreshAction = true;
-    	// Since it is a refresh, the minId for the next batch should be equal to maxId of current one
+    	// Since it is a refresh of the current screen, the minId for the next batch should be equal to maxId of current one
     	minId = maxId;
     	loadTweets();
     }
