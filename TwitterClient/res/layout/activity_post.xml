@@ -78,11 +78,21 @@
     		android:layout_height="wrap_content"
     		android:layout_alignLeft="@+id/ivUserProfile"
     		android:layout_below="@+id/ivUserProfile"
+    		android:layout_toLeftOf="@+id/tvRemainingChars"
     		android:ems="10"
     		android:hint="@string/enter_tweet_here_hint"
     		android:inputType="textMultiLine"
     		android:lines="3"
-    		android:maxLength="140" />
+    		android:maxLength="@integer/tweet_max_length" />
+
+    	<TextView
+    		android:id="@+id/tvRemainingChars"
+    		android:layout_width="wrap_content"
+    		android:layout_height="wrap_content"
+    		android:layout_alignBaseline="@+id/etTweet"
+    		android:layout_alignBottom="@+id/etTweet"
+    		android:layout_alignParentRight="true"
+    		android:hint="@integer/tweet_max_length" />
 
     </RelativeLayout>
 
