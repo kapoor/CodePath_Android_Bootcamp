@@ -4,6 +4,7 @@
         android:id="@+id/miPost"
         android:icon="@drawable/ic_action_post"
         android:showAsAction="ifRoom|withText"
+        android:onClick="onPostAction"
         android:title="@string/post" />
 
 </menu>

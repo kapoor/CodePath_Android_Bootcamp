@@ -1,4 +1,4 @@
-package com.codepath.apps.twitterclient;
+package com.example.twitterclient;
 
 import org.json.JSONObject;
 
@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.codepath.apps.twitterclient.models.Tweet;
+import com.example.twitterclient.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -68,7 +68,6 @@ public class PostActivity extends Activity {
 			public void onFailure(Throwable arg0, String message) {
 				Toast.makeText(PostActivity.this, "Failed: " + message, Toast.LENGTH_LONG).show();
 			}
-
 			
 		});
 	}

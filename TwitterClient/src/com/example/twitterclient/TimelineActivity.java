@@ -1,4 +1,4 @@
-package com.codepath.apps.twitterclient;
+package com.example.twitterclient;
 
 import java.util.ArrayList;
 
@@ -15,9 +15,9 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.codepath.apps.twitterclient.models.Tweet;
-import com.codepath.apps.twitterclient.models.User;
-import com.codepath.apps.twitterclient.util.EndlessScrollListener;
+import com.example.twitterclient.models.Tweet;
+import com.example.twitterclient.models.User;
+import com.example.twitterclient.util.EndlessScrollListener;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 public class TimelineActivity extends Activity {
@@ -32,6 +32,7 @@ public class TimelineActivity extends Activity {
     
     // Adapters
     private TweetsAdapter tweetsAdapter;
+    private ArrayList<Tweet> tweets = new ArrayList<Tweet>();
     
     // Instance variables
     private User user;
@@ -51,14 +52,14 @@ public class TimelineActivity extends Activity {
         
         runActivity();
 	}
-
+	
     
     private void setupViews() {
     	lvTweets = (ListView) findViewById(R.id.lvTweets);
     }
     
     private void setupAdapters() {
-		tweetsAdapter = new TweetsAdapter(getBaseContext());
+		tweetsAdapter = new TweetsAdapter(getBaseContext(), tweets);
 		lvTweets.setAdapter(tweetsAdapter);
     }
     
@@ -77,25 +78,24 @@ public class TimelineActivity extends Activity {
     }
     
 	public void getUserData() {
-		MainApp.getRestClient().getMyInfo(
-				new JsonHttpResponseHandler() {
+		MainApp.getRestClient().getMyInfo(new JsonHttpResponseHandler() {
 
-					@Override
-					public void onSuccess(JSONObject jsonUser) {
-						try {
-							setTitle("@" + jsonUser.getString("screen_name"));
-							user = User.fromJson(jsonUser);
-						} catch (JSONException e) {
-							e.printStackTrace();
-						}
-					}
+			@Override
+			public void onSuccess(JSONObject jsonUser) {
+				try {
+					setTitle("@" + jsonUser.getString("screen_name"));
+					user = User.fromJson(jsonUser);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
 
-					@Override
-					public void onFailure(Throwable arg0, String message) {
-						Log.d("DEBUG", "Failed to fetch user settings:"
-								+ message);
-					}
-				});
+			@Override
+			public void onFailure(Throwable arg0, String message) {
+				Log.d("DEBUG", "Failed to fetch user settings:"
+						+ message);
+			}
+		});
 	}
 
     private void customLoadMoreDataFromApi() {
@@ -108,7 +108,7 @@ public class TimelineActivity extends Activity {
 					jsonTweets.remove(0);
 				}
 				
-				ArrayList<Tweet> tweets = Tweet.fromJson(jsonTweets);
+				tweets = Tweet.fromJson(jsonTweets);
 				
                 // Update the the adapter
                 tweetsAdapter.addAll(tweets);

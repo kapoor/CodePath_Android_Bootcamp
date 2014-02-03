@@ -1,4 +1,4 @@
-package com.codepath.apps.twitterclient;
+package com.example.twitterclient;
 
 import org.scribe.builder.api.Api;
 import org.scribe.builder.api.TwitterApi;
@@ -47,20 +47,26 @@ public class TwitterClient extends OAuthBaseClient {
     
     public void getHomeTimeline(long maxId, AsyncHttpResponseHandler handler) {
     	
-    	String url = getApiUrl("statuses/home_timeline.json");
-    	
-    	// NOTE: Query string params can also be specified directly as:
-    	// String url = getApiUrl("statuses/home_timeline.json" + (maxId == -1 ? "" : "?count=21&max_id=" + maxId));
+    	String url = getApiUrl("statuses/home_timeline.json" + (maxId == -1 ? "" : "?count=21&max_id=" + maxId));
+    	client.get(url, null, handler);
 
-    	RequestParams params = new RequestParams();
-    	if (maxId == -1) {
-        	// Get 21 tweets the second time because the tweet with maxId will be returned back
-    		params.put("count", "21");
-    		params.put("max_id", String.valueOf(maxId));
-    	}
-    	
+    	/*
+    		// NOTE: Query string params can be also specified using ResponseParams as:
+    	    // Adding params via RequestParams causes Async-Http to throw this exception:
+    	    	Authentication error: Unable to respond to any of these challenges: {}
+
+	    	String url = getApiUrl("statuses/home_timeline.json");
+	    	RequestParams params = new RequestParams();
+	    	if (maxId != -1) {
+	        	// Get 21 tweets the second time because the tweet with maxId will be returned back
+	    		params.put("count", "21");
+	    		params.put("max_id", String.valueOf(maxId));
+	    	}
+	    	
+			client.get(url, params, handler);
+    	 */
+
     	Log.d(LOG_TAG, "URL is = " + url);
-		client.get(url, params, handler);
     }
 
     public void getMyInfo(AsyncHttpResponseHandler handler) {

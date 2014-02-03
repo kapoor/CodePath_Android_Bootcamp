@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Twitter Client</string>
-    <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="title_activity_photos">Flickr Photos</string>
-    <string name="login_label">Log in</string>
-    <string name="title_activity_timeline">TimelineActivity</string>
-    
-    <string name="could_not_get_tweets">Sorry, could not get tweets!</string>
-    <string name="post">Post</string>
+	<string name="app_name">Twitter Client</string>
+	<string name="login_label">Log in</string>
+	<string name="title_activity_timeline">TimelineActivity</string>
+	<string name="could_not_get_tweets">Sorry, could not get tweets!</string>
+	<string name="post">Post</string>
+	
+    <string name="title_activity_post">PostActivity</string>
+	<string name="compose_tweet">Compose Tweet</string>
+	
+    <string name="cancel">Cancel</string>
+    <string name="tweet">Tweet</string>
+    <string name="enter_tweet_here_hint">Enter Tweet Here</string>
+    <string name="twitter_handle">Twitter handle</string>
+    <string name="twitter_profile_image">Twitter profile image</string>
     
 </resources>

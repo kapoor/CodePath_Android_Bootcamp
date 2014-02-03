@@ -1,72 +1,89 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="#ffffff"
-    tools:context=".PostActivity" >
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="fill_parent"
+	android:layout_height="match_parent"
+	android:background="#ffffff"
+	tools:context=".PostActivity" >
 
-    <Button
-        android:id="@+id/btnCancel"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="60dp"
-        android:layout_height="30dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:onClick="onPostTweetCancel"
-        android:background="@drawable/rounded_cancel_button"
-        android:text="Cancel" />
+	<RelativeLayout
+		android:id="@+id/relativeLayout1"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentRight="true"
+		android:layout_alignParentTop="true"
+	    android:paddingBottom="@dimen/activity_post_vertical_margin"
+	    android:paddingLeft="@dimen/activity_post_horizontal_margin"
+	    android:paddingRight="@dimen/activity_post_horizontal_margin"
+	    android:paddingTop="@dimen/activity_post_vertical_margin"
+		android:background="@color/gray" >
 
-    <Button
-        android:id="@+id/btnPost"
-        android:layout_width="60dp"
-        android:layout_height="30dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:onClick="onPostTweet"
-        android:background="@drawable/rounded_tweet_button"
-        android:textColor="#ffffff"
-        android:text="Tweet" />
-    
-       <!--  android:drawableLeft="@drawable/ic_launcher" -->
+		<Button
+			android:id="@+id/btnCancel"
+			style="?android:attr/buttonStyleSmall"
+			android:layout_width="60dp"
+			android:layout_height="30dp"
+			android:layout_alignParentLeft="true"
+			android:layout_alignParentTop="true"
+			android:background="@drawable/rounded_cancel_button"
+			android:onClick="onPostTweetCancel"
+			android:text="@string/cancel" />
 
-    <ImageView
-        android:id="@+id/ivUserProfile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btnCancel"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
-        android:src="@drawable/ic_launcher" />
+		<Button
+			android:id="@+id/btnPost"
+			android:layout_width="60dp"
+			android:layout_height="30dp"
+			android:layout_alignParentRight="true"
+			android:layout_alignParentTop="true"
+			android:background="@drawable/rounded_tweet_button"
+			android:onClick="onPostTweet"
+			android:text="@string/tweet"
+			android:textColor="#ffffff" />
+		
+	</RelativeLayout>
 
-    <TextView
-        android:id="@+id/tvUser"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/btnPost"
-        android:layout_alignTop="@+id/ivUserProfile"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="4dp"
-        android:layout_toRightOf="@+id/ivUserProfile"
-        android:text="TextView" />
+    <RelativeLayout
+    	android:id="@+id/relativeLayout2"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:layout_alignParentLeft="true"
+    	android:layout_below="@+id/relativeLayout1"
+	    android:paddingBottom="@dimen/activity_vertical_margin"
+	    android:paddingLeft="@dimen/activity_horizontal_margin"
+	    android:paddingRight="@dimen/activity_horizontal_margin"
+	    android:paddingTop="@dimen/activity_vertical_margin" >
 
-    <EditText
-        android:id="@+id/etTweet"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/ivUserProfile"
-        android:layout_below="@+id/ivUserProfile"
-        android:layout_marginTop="5dp"
-        android:ems="10"
-        android:hint="Enter Tweet Here"
-        android:inputType="textMultiLine"
-        android:lines="3"
-        android:maxLength="140" >
+    	<ImageView
+    		android:id="@+id/ivUserProfile"
+    		android:contentDescription="@string/twitter_profile_image"
+    		android:layout_width="wrap_content"
+    		android:layout_height="wrap_content"
+    		android:layout_alignParentLeft="true"
+    		android:layout_alignParentTop="true"
+    		android:src="@drawable/ic_launcher" />
 
-        <requestFocus />
-    </EditText>
+    	<TextView
+    		android:id="@+id/tvUser"
+    		android:layout_width="wrap_content"
+    		android:layout_height="wrap_content"
+    		android:layout_alignBottom="@+id/ivUserProfile"
+    		android:layout_marginBottom="14dp"
+    		android:layout_marginLeft="20dp"
+    		android:layout_toRightOf="@+id/ivUserProfile"
+    		android:text="@string/twitter_handle" />
+
+    	<EditText
+    		android:id="@+id/etTweet"
+    		android:layout_width="match_parent"
+    		android:layout_height="wrap_content"
+    		android:layout_alignLeft="@+id/ivUserProfile"
+    		android:layout_below="@+id/ivUserProfile"
+    		android:ems="10"
+    		android:hint="@string/enter_tweet_here_hint"
+    		android:inputType="textMultiLine"
+    		android:lines="3"
+    		android:maxLength="140" />
+
+    </RelativeLayout>
 
 </RelativeLayout>

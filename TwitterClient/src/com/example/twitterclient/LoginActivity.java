@@ -1,4 +1,4 @@
-package com.codepath.apps.twitterclient;
+package com.example.twitterclient;
 
 import android.content.Intent;
 import android.os.Bundle;

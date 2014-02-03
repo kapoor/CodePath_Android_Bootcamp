@@ -1,6 +1,6 @@
-package com.codepath.apps.twitterclient;
+package com.example.twitterclient;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Context;
 import android.text.Html;
@@ -11,13 +11,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.codepath.apps.twitterclient.models.Tweet;
+import com.example.twitterclient.models.Tweet;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class TweetsAdapter extends ArrayAdapter<Tweet>{
 	
-	public TweetsAdapter(Context context) {
-		super(context, 0, new ArrayList<Tweet>());
+	public TweetsAdapter(Context context, List<Tweet> tweets) {
+		super(context, 0, tweets);
 	}
 
 	@Override

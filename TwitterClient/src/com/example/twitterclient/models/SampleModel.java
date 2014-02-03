@@ -1,4 +1,4 @@
-package com.codepath.apps.twitterclient.models;
+package com.example.twitterclient.models;
 
 import java.util.List;
 
