@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.codepath.oauth.OAuthBaseClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 /*
  * 
@@ -35,23 +36,6 @@ public class TwitterClient extends OAuthBaseClient {
     }
     
     
-    public void getHomeTimeline(long maxId, AsyncHttpResponseHandler handler) {
-    	
-    	/*
-    		String apiUrl = getApiUrl("?nojsoncallback=1&method=flickr.interestingness.getList");
-        	// Can specify query string params directly or through RequestParams.
-        	RequestParams params = new RequestParams();
-        	params.put("format", "json");
-        	client.get(apiUrl, params, handler);
-    	 */
-    	
-    	// Get 21 tweets the second time because the tweet with maxId will be returned back
-    	String url = getApiUrl("statuses/home_timeline.json" + (maxId == -1 ? "" : "?count=21&max_id=" + maxId));
-    	Log.d(LOG_TAG, "URL is = " + url);
-    	client.get(url, null, handler);
-    }
-
-    
     /* 1. Define the endpoint URL with getApiUrl and pass a relative path to the endpoint
      * 	  i.e getApiUrl("statuses/home_timeline.json");
      * 2. Define the parameters to pass to the request (query or body)
@@ -60,4 +44,35 @@ public class TwitterClient extends OAuthBaseClient {
      *    i.e client.get(apiUrl, params, handler);
      *    i.e client.post(apiUrl, params, handler);
      */
+    
+    public void getHomeTimeline(long maxId, AsyncHttpResponseHandler handler) {
+    	
+    	String url = getApiUrl("statuses/home_timeline.json");
+    	
+    	// NOTE: Query string params can also be specified directly as:
+    	// String url = getApiUrl("statuses/home_timeline.json" + (maxId == -1 ? "" : "?count=21&max_id=" + maxId));
+
+    	RequestParams params = new RequestParams();
+    	if (maxId == -1) {
+        	// Get 21 tweets the second time because the tweet with maxId will be returned back
+    		params.put("count", "21");
+    		params.put("max_id", String.valueOf(maxId));
+    	}
+    	
+    	Log.d(LOG_TAG, "URL is = " + url);
+		client.get(url, params, handler);
+    }
+
+    public void getMyInfo(AsyncHttpResponseHandler handler) {
+    	String url = getApiUrl("account/verify_credentials.json");
+    	client.get(url, null, handler);
+    }
+    
+    public void postTweet(String tweetStatus, AsyncHttpResponseHandler handler) {
+    	String url = getApiUrl("statuses/update.json");
+    	RequestParams params = new RequestParams();
+    	params.put("status", tweetStatus);
+    	client.post(url, params, handler);
+    }
+
 }

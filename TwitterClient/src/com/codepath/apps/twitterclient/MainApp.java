@@ -17,7 +17,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
  */
 public class MainApp extends com.activeandroid.app.Application {
 	private static Context context;
-	
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -35,4 +35,5 @@ public class MainApp extends com.activeandroid.app.Application {
     public static TwitterClient getRestClient() {
     	return (TwitterClient) TwitterClient.getInstance(TwitterClient.class, MainApp.context);
     }
+    
 }
