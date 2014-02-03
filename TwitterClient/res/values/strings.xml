@@ -6,6 +6,7 @@
 	<string name="title_activity_timeline">TimelineActivity</string>
 	<string name="could_not_get_tweets">Sorry, could not get tweets!</string>
 	<string name="post">Post</string>
+	<string name="refresh">Refresh</string>
 	
     <string name="title_activity_post">PostActivity</string>
 	<string name="compose_tweet">Compose Tweet</string>

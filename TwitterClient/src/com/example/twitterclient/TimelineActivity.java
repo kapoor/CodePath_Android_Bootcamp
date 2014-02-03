@@ -37,6 +37,8 @@ public class TimelineActivity extends Activity {
     // Instance variables
     private User user;
     private long maxId = -1;
+    private long minId = -1;
+    private boolean isRefreshAction = false;
 
     
 	@Override
@@ -49,8 +51,7 @@ public class TimelineActivity extends Activity {
         addListeners();
         
         getUserData();
-        
-        runActivity();
+        loadTweets();
 	}
 	
     
@@ -67,14 +68,14 @@ public class TimelineActivity extends Activity {
         lvTweets.setOnScrollListener(new EndlessScrollListener() {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                customLoadMoreDataFromApi();
+                loadDataFromAPI();
             }
         });
     }
 
-    public void runActivity() {
+    public void loadTweets() {
         tweetsAdapter.clear();
-    	customLoadMoreDataFromApi();
+    	loadDataFromAPI();
     }
     
 	public void getUserData() {
@@ -98,13 +99,14 @@ public class TimelineActivity extends Activity {
 		});
 	}
 
-    private void customLoadMoreDataFromApi() {
-		MainApp.getRestClient().getHomeTimeline(maxId, new JsonHttpResponseHandler() {
+    private void loadDataFromAPI() {
+		MainApp.getRestClient().getHomeTimeline(minId, new JsonHttpResponseHandler() {
 			@Override
 			public void onSuccess(JSONArray jsonTweets) {
 				
-				if (maxId != -1) {
-					// Remove the repeated tweet for maxId which will be returned again
+				// Don't remove the top tweet if this is the first request or if this is a refresh action
+				if (minId != -1 && !isRefreshAction) {
+					// Remove the repeated tweet for minId which will be returned again (as maxId of the first tweet)
 					jsonTweets.remove(0);
 				}
 				
@@ -113,8 +115,15 @@ public class TimelineActivity extends Activity {
                 // Update the the adapter
                 tweetsAdapter.addAll(tweets);
 
-                // Get the Id of the last tweet and set it as maxId for the next batch of results
-                maxId = (tweets.get(tweets.size() - 1)).getId();
+                // Don't update the maxId and minId if this is a refresh action
+                if(!isRefreshAction) {
+	                // Get the Id of the first and last tweets and set it as maxId and minId for the next batch of results
+	                maxId = (tweets.get(0)).getId();
+	                minId = (tweets.get(tweets.size() - 1)).getId();
+                }
+                
+                // Reset isRefreshAction flag
+                isRefreshAction = false;
 			}
 			
             @Override
@@ -124,6 +133,15 @@ public class TimelineActivity extends Activity {
 		});
 	}
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Get the results from preferences activity
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK){      
+            maxId = minId = -1;
+            loadTweets();
+        }
+    }
+    
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -131,6 +149,12 @@ public class TimelineActivity extends Activity {
 		return true;
 	}
 
+    public void onRefreshAction(MenuItem mi) {
+    	isRefreshAction = true;
+    	// Since it is a refresh, the minId for the next batch should be equal to maxId of current one
+    	minId = maxId;
+    	loadTweets();
+    }
     
     public void onPostAction(MenuItem mi) {
 		Intent postIntent = new Intent();
