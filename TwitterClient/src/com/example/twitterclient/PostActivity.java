@@ -15,7 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.twitterclient.models.Tweet;
-import com.example.twitterclient.util.EndlessScrollListener;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -105,7 +104,7 @@ public class PostActivity extends Activity {
 
 			@Override
 			public void onFailure(Throwable arg0, String message) {
-				Toast.makeText(PostActivity.this, "Failed: " + message, Toast.LENGTH_LONG).show();
+				Toast.makeText(PostActivity.this, getResources().getString(R.string.could_not_post_tweet_error) + message, Toast.LENGTH_LONG).show();
 			}
 			
 		});

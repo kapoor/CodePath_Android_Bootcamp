@@ -127,8 +127,8 @@ public class TimelineActivity extends Activity {
 			}
 			
             @Override
-            public void onFailure(Throwable e) {
-                Toast.makeText(getApplicationContext(), getString(R.string.could_not_get_tweets), Toast.LENGTH_SHORT).show();
+            public void onFailure(Throwable e, String message) {
+                Toast.makeText(getApplicationContext(), getString(R.string.could_not_get_tweets_error) + message, Toast.LENGTH_SHORT).show();
             }
 		});
 	}

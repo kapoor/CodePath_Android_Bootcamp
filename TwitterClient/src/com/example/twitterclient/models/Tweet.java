@@ -4,16 +4,21 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.text.format.DateUtils;
 
 public class Tweet extends BaseModel implements Serializable {
 	private static final long serialVersionUID = 6875000113655618590L;
 	private User user;
+	private static final SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+	
 
     public User getUser() {
         return user;
@@ -27,12 +32,41 @@ public class Tweet extends BaseModel implements Serializable {
         return getLong("id");
     }
 
-	@SuppressLint("SimpleDateFormat")
 	public String getTimestamp() {
-		SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+		Date timestamp = getTimestampAsDate();
+		
+		if (timestamp == null) return null;
+		
+		return getTimestampAsDate().toString();
+	}
+	
+	public String getRelativeDateTimeString(Context context) {
+		Date timestamp = getTimestampAsDate();
+		
+		if (timestamp == null) return null;
+		
+		return DateUtils.getRelativeDateTimeString(
+	        context,
+	        timestamp.getTime(), // The time to display
+	        DateUtils.SECOND_IN_MILLIS, // The resolution. This will display only minutes (no "3 seconds ago") 
+	        DateUtils.WEEK_IN_MILLIS, 	// The maximum resolution at which the time will switch to default date
+	        							// instead of spans. This will not display "3 weeks ago" but a full date instead
+	        0).toString();
+	}
+
+	public String getRelativeTimeSpanString() {
+		Date timestamp = getTimestampAsDate();
+		
+		if (timestamp == null) return null;
+		
+		return DateUtils.getRelativeTimeSpanString(timestamp.getTime()).toString();
+	}
+	
+	@SuppressLint("SimpleDateFormat")
+	private Date getTimestampAsDate() {
 		sdf.setLenient(true);
 		try {
-			return sdf.parse(getString("created_at")).toString();
+			return sdf.parse(getString("created_at"));
 		} catch (ParseException e) {
 			e.printStackTrace();
 			return null;

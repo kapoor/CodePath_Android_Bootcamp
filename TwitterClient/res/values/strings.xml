@@ -4,7 +4,7 @@
 	<string name="app_name">Twitter Client</string>
 	<string name="login_label">Log in</string>
 	<string name="title_activity_timeline">TimelineActivity</string>
-	<string name="could_not_get_tweets">Sorry, could not get tweets!</string>
+	<string name="could_not_get_tweets_error">Sorry, could not get tweets! Error: </string>
 	<string name="post">Post</string>
 	<string name="refresh">Refresh</string>
 	
@@ -16,5 +16,7 @@
     <string name="enter_tweet_here_hint">Enter Tweet Here</string>
     <string name="twitter_handle">Twitter handle</string>
     <string name="twitter_profile_image">Twitter profile image</string>
+    <string name="could_not_post_tweet_error">Could not post tweet! Error: </string>
+    
     
 </resources>
