@@ -49,7 +49,7 @@ public class Tweet extends BaseModel implements Serializable {
 	private boolean isRetweeted;
 
 
-	// NOTE: This default no-argument constructor is needed for ActiveAndroid to work well 
+	// NOTE: This default no-argument constructor is needed for ActiveAndroid to work 
 	public Tweet() {
 		super();
 	}

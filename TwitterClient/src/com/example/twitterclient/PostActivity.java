@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.twitterclient.models.Tweet;
+import com.example.twitterclient.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -39,11 +40,9 @@ public class PostActivity extends Activity {
 
         setupViews();
 
-		String screenName = getIntent().getStringExtra("screenName");
-		String profileImageUrl = getIntent().getStringExtra("profileImageUrl");
-		
-		tvUser.setText('@'+screenName);
-		ImageLoader.getInstance().displayImage(profileImageUrl, ivUserProfile);
+        User user = (User) getIntent().getSerializableExtra("user");
+		tvUser.setText('@' + user.getScreenName());
+		ImageLoader.getInstance().displayImage(user.getProfileImageUrl(), ivUserProfile);
 		
         addListeners();
 

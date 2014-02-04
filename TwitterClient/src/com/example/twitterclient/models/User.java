@@ -42,7 +42,7 @@ public class User extends BaseModel implements Serializable {
 	private String tagline;
 
 	
-	// NOTE: This default no-argument constructor is needed for ActiveAndroid to work well 
+	// NOTE: This default no-argument constructor is needed for ActiveAndroid to work 
 	public User() {
 		super();
 	}

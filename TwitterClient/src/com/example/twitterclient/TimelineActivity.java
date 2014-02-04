@@ -189,9 +189,11 @@ public class TimelineActivity extends Activity {
     
     public void onPostAction(MenuItem mi) {
 		Intent postIntent = new Intent();
-		postIntent.putExtra("screenName", user.getScreenName());
-		postIntent.putExtra("profileImageUrl", user.getProfileImageUrl());
+		//postIntent.putExtra("user", user.getScreenName());
+		//postIntent.putExtra("profileImageUrl", user.getProfileImageUrl());
 
+		postIntent.putExtra("user", user);
+		
 		postIntent.setClass(getApplicationContext(), PostActivity.class);
 		startActivityForResult(postIntent, REQUEST_CODE);
     }
