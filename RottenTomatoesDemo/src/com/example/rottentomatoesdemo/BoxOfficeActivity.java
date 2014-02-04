@@ -8,9 +8,13 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
+import android.view.Window;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.example.rottentomatoesdemo.models.BoxOfficeMovie;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 public class BoxOfficeActivity extends Activity {
@@ -22,7 +26,11 @@ public class BoxOfficeActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        
         setContentView(R.layout.activity_box_office);
+        
         lvMovies = (ListView) findViewById(R.id.lvMovies);
         ArrayList<BoxOfficeMovie> aMovies = new ArrayList<BoxOfficeMovie>();
         adapterMovies = new BoxOfficeMoviesAdapter(this, aMovies);
@@ -43,10 +51,16 @@ public class BoxOfficeActivity extends Activity {
 	// Executes an API call to the box office endpoint, parses the results
     // Converts them into an array of movie objects and adds them to the adapter
     private void fetchBoxOfficeMovies() {
+        adapterMovies.clear();
         client = new RottenTomatoesClient();
+        
+        setProgressBarIndeterminateVisibility(true);
+        
         client.getBoxOfficeMovies(new JsonHttpResponseHandler() {
+        	        	
             @Override
             public void onSuccess(int code, JSONObject body) {
+            	
                 JSONArray items = null;
                 try {
                     // Get the movies json array
@@ -57,9 +71,26 @@ public class BoxOfficeActivity extends Activity {
                     for (BoxOfficeMovie movie : movies) {
                        adapterMovies.add(movie);
                     }
+                    
+                    setProgressBarIndeterminateVisibility(false);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            }
+            
+            @Override
+            public void onFailure(Throwable e, String message) {
+                
+            	Toast.makeText(BoxOfficeActivity.this, getResources().getString(R.string.offline_mode), Toast.LENGTH_LONG).show();
+
+                ArrayList<BoxOfficeMovie> movies = BoxOfficeMovie.getOfflineMovies();
+                
+                // Load model objects into the adapter
+                for (BoxOfficeMovie movie : movies) {
+                   adapterMovies.add(movie);
+                }
+                
+                setProgressBarIndeterminateVisibility(false);
             }
         });
     }

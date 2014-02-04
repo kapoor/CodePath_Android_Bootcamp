@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.rottentomatoesdemo.models.BoxOfficeMovie;
 import com.squareup.picasso.Picasso;
 
 public class BoxOfficeMoviesAdapter extends ArrayAdapter<BoxOfficeMovie> {

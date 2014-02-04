@@ -5,12 +5,16 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 public class RottenTomatoesClient {
-    private final String API_KEY = "2k5nfxdkffb5vtpnrabyh4af";
-    private final String API_BASE_URL = "http://api.rottentomatoes.com/api/public/v1.0/";
+	
+    private static final String API_KEY = "2k5nfxdkffb5vtpnrabyh4af";
+    private static final String API_BASE_URL = "http://api.rottentomatoes.com/api/public/v1.0/";
+    private static final int httpTimeoutMilliSeconds = 300;
+    
     private AsyncHttpClient client;
 
     public RottenTomatoesClient() {
-        this.client = new AsyncHttpClient();
+        client = new AsyncHttpClient();
+        client.setTimeout(httpTimeoutMilliSeconds);
     }
 
     private String getApiUrl(String relativeUrl) {
