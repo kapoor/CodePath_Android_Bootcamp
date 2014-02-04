@@ -120,7 +120,7 @@ public class BoxOfficeMovie extends BaseModel {
     	// return new Select().from(SampleModel.class).where("id = ?", id).executeSingle();
     	// return new Select().from(SampleModel.class).orderBy("id DESC").limit("300").execute();
        
-    	// Show only top 20 recent tweets
+    	// Show only top 20 recent movies
     	List<BoxOfficeMovie> movies = new Select().from(BoxOfficeMovie.class).limit(20).execute();
     	return new ArrayList<BoxOfficeMovie>(movies);
     }
