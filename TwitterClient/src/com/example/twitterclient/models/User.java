@@ -1,58 +1,124 @@
 package com.example.twitterclient.models;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.json.JSONObject;
 
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Select;
+
+@Table(name = "Users")
 public class User extends BaseModel implements Serializable {
 	private static final long serialVersionUID = -3527299894278558921L;
 
+	// Define database columns and associated fields for ActiveAndroid
+	@Column(name = "userId", index = true)
+	private long userId;
+	
+	@Column(name = "name")
+	private String name;
+	
+	@Column(name = "screenName")
+	private String screenName;
+	
+	@Column(name = "profileImageUrl")
+	private String profileImageUrl;
+	
+	@Column(name = "profileBackgroundImageUrl")
+	private String profileBackgroundImageUrl;
+	
+	@Column(name = "numTweets")
+	private int numTweets;
+	
+	@Column(name = "followersCount")
+	private int followersCount;
+	
+	@Column(name = "friendsCount")
+	private int friendsCount;
+	
+	@Column(name = "tagline")
+	private String tagline;
+
+	
+	// NOTE: This default no-argument constructor is needed for ActiveAndroid to work well 
+	public User() {
+		super();
+	}
+	
+    public User(JSONObject jsonObj) {
+        try {
+            jsonObject = jsonObj;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+        
+        // Set the instance variables
+		name = getString("name");
+		userId = getLong("id");
+		screenName = getString("screen_name");
+		profileImageUrl = getString("profile_image_url");
+		profileBackgroundImageUrl = getString("profile_background_image_url");
+		numTweets = getInt("statuses_count");
+		followersCount = getInt("followers_count");
+		friendsCount = getInt("friends_count");
+		tagline = getString("description");
+		
+		// Persist this object using ActiveAndroid
+		save();
+    }
+	
 	public String getName() {
-        return getString("name");
+        return name;
     }
 
-    public long getId() {
-        return getLong("id");
+    public long getUserId() {
+        return userId;
     }
 
     public String getScreenName() {
-        return getString("screen_name");
+        return screenName;
     }
 
     public String getProfileImageUrl() {
-        return getString("profile_image_url");
+        return profileImageUrl;
     }
 
     public String getProfileBackgroundImageUrl() {
-        return getString("profile_background_image_url");
+        return profileBackgroundImageUrl;
     }
 
     public int getNumTweets() {
-        return getInt("statuses_count");
+        return numTweets;
     }
 
     public int getFollowersCount() {
-        return getInt("followers_count");
+        return followersCount;
     }
 
     public int getFriendsCount() {
-        return getInt("friends_count");
+        return friendsCount;
     }
     
     public String getTagline() {
-    	return getString("description");
+    	return tagline;
     }
+    
+    public List<Tweet> tweets() {
+        return getMany(Tweet.class, "Category");
+    }
+    
+    public static User getOfflineUser() {
 
-    public static User fromJson(JSONObject json) {
-        User u = new User();
+    	// Examples:
+    	// return new Select().from(SampleModel.class).where("id = ?", id).executeSingle();
+    	// return new Select().from(SampleModel.class).orderBy("id DESC").limit("300").execute();
 
-        try {
-            u.jsonObject = json;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return u;
+    	return new Select()
+        .from(User.class)
+        .executeSingle();
     }
     
 }

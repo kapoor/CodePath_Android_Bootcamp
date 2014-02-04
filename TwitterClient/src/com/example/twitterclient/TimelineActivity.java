@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.Toast;
 
 import com.example.twitterclient.models.Tweet;
@@ -37,44 +38,28 @@ public class TimelineActivity extends Activity {
     
     // Instance variables
     private User user;
-    private long maxId = -1;
     private long minId = -1;
-    private boolean isRefreshAction = false;
 
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+
 		setContentView(R.layout.activity_timeline);
 		
         setupViews();
         setupAdapters();
-        addListeners();
+
+        fetchUserData();
         
-        getUserData();
-        loadTweets();
+        addListeners();
 	}
 	
     
     private void setupViews() {
-    	//lvTweets = (ListView) findViewById(R.id.lvTweets);
-    	
     	lvTweets = (PullToRefreshListView) findViewById(R.id.lvTweets);
-        // Set a listener to be invoked when the list should be refreshed.
-        lvTweets.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-            	// Since this is a reload, reset the parameters to their initial state
-            	isRefreshAction = false;
-            	minId = maxId = -1;
-            	
-                // Refresh the list contents
-            	loadTweets();
-
-            	// Make sure to always call listView.onRefreshComplete() when loading is done.
-            	lvTweets.onRefreshComplete();
-            }
-        });
     }
     
     private void setupAdapters() {
@@ -89,76 +74,105 @@ public class TimelineActivity extends Activity {
                 loadDataFromAPI();
             }
         });
+        
+        // Set a listener to be invoked when the list is pulled down to be refreshed
+        lvTweets.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Refresh the list contents
+            	reloadTweets();
+
+            	// NOTE: Always make sure to always call listView.onRefreshComplete() when loading is done
+            	lvTweets.onRefreshComplete();
+            }
+        });
     }
 
-    public void loadTweets() {
+    public void reloadTweets() {
+    	// Reset the parameters to their initial state
         tweetsAdapter.clear();
+    	minId = -1;
     	loadDataFromAPI();
     }
     
-	public void getUserData() {
+	public void fetchUserData() {
+		
+        setProgressBarIndeterminateVisibility(true);
+
 		MainApp.getRestClient().getMyInfo(new JsonHttpResponseHandler() {
 
 			@Override
 			public void onSuccess(JSONObject jsonUser) {
 				try {
 					setTitle("@" + jsonUser.getString("screen_name"));
-					user = User.fromJson(jsonUser);
+					user = new User(jsonUser);
+					
+			        setProgressBarIndeterminateVisibility(false);
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
 			}
 
 			@Override
-			public void onFailure(Throwable arg0, String message) {
-				Log.d("DEBUG", "Failed to fetch user settings:"
-						+ message);
+			public void onFailure(Throwable e, String message) {
+                Toast.makeText(getApplicationContext(), getString(R.string.could_not_get_user_error), Toast.LENGTH_SHORT).show();
+
+                // Fetch locally stored user record
+				user = User.getOfflineUser();
+				setTitle("@" + user.getScreenName());
+
+		        setProgressBarIndeterminateVisibility(false);
 			}
 		});
 	}
 
+	
     private void loadDataFromAPI() {
+        setProgressBarIndeterminateVisibility(true);
+
 		MainApp.getRestClient().getHomeTimeline(minId, new JsonHttpResponseHandler() {
+			
 			@Override
 			public void onSuccess(JSONArray jsonTweets) {
-				
-				// Don't remove the top tweet if this is the first request or if this is a refresh action
-				if (minId != -1 && !isRefreshAction) {
-					// Remove the repeated tweet for minId which will be returned again (as maxId of the first tweet)
-					jsonTweets.remove(0);
-				}
 				
 				tweets = Tweet.fromJson(jsonTweets);
 				
                 // Update the the adapter
                 tweetsAdapter.addAll(tweets);
 
-                // Don't update the maxId and minId if this is a refresh action
-                if(!isRefreshAction) {
-	                // Get the Id of the first and last tweets and set it as maxId and minId for the next batch of results
-	                maxId = (tweets.get(0)).getId();
-	                minId = (tweets.get(tweets.size() - 1)).getId();
-                }
+                // Set minId = tweetId of the last tweet - 1 for the next batch of results,
+            	// without the "- 1", the last tweet of this batch will be returned back as
+                // the first tweet of the next batch
+                minId = (tweets.get(tweets.size() - 1)).getTweetId() - 1;
                 
-                // Reset isRefreshAction flag
-                isRefreshAction = false;
+		        setProgressBarIndeterminateVisibility(false);
 			}
 			
             @Override
             public void onFailure(Throwable e, String message) {
-                Toast.makeText(getApplicationContext(), getString(R.string.could_not_get_tweets_error) + message, Toast.LENGTH_SHORT).show();
+
+                Toast.makeText(getApplicationContext(), getString(R.string.could_not_get_tweets_error), Toast.LENGTH_SHORT).show();
+                
+                // Fetch locally stored tweets
+                tweets = Tweet.getOfflineTweets();
+                
+                // Update the the adapter
+                tweetsAdapter.addAll(tweets);
+                
+		        setProgressBarIndeterminateVisibility(false);
             }
 		});
 	}
 
+    
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Get the results from preferences activity
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK){      
-            maxId = minId = -1;
-            loadTweets();
+            reloadTweets();
         }
     }
+    
     
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -167,12 +181,11 @@ public class TimelineActivity extends Activity {
 		return true;
 	}
 
+	
     public void onRefreshAction(MenuItem mi) {
-    	isRefreshAction = true;
-    	// Since it is a refresh of the current screen, the minId for the next batch should be equal to maxId of current one
-    	minId = maxId;
-    	loadTweets();
+    	reloadTweets();
     }
+    
     
     public void onPostAction(MenuItem mi) {
 		Intent postIntent = new Intent();

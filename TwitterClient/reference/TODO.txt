@@ -18,10 +18,7 @@ User Stories:
 7) Optional: User can open the twitter app offline and see recent tweets
     - Tweets are persisted into sqlite and displayed from the local DB
 
-
-TODO:
-
-Consider adding progress bars whenever you can (or use the built-in actionbar progress bar)
+Add built in (or external) progress bars in all activities
     https://github.com/thecodepath/android_guides/wiki/Handling-ProgressBars#actionbar-progress-bar
 
 

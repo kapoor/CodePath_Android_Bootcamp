@@ -9,6 +9,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,6 +32,9 @@ public class PostActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+        
+		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        
 		setContentView(R.layout.activity_post);
 
         setupViews();
@@ -89,11 +93,16 @@ public class PostActivity extends Activity {
 	public void onPostTweet(View v) {
 		String tweetBody = etTweet.getText().toString();
 		
+        setProgressBarIndeterminateVisibility(true);
+
 		MainApp.getRestClient().postTweet(tweetBody, new JsonHttpResponseHandler() {
 
 			@Override
 			public void onSuccess(JSONObject jsonTweet) {
-				Tweet tweet = Tweet.fromJson(jsonTweet);
+				
+		        setProgressBarIndeterminateVisibility(false);
+		        
+				Tweet tweet = new Tweet(jsonTweet);
 				
 				Intent data = new Intent();
 				data.putExtra("tweet", tweet);
@@ -104,6 +113,7 @@ public class PostActivity extends Activity {
 
 			@Override
 			public void onFailure(Throwable arg0, String message) {
+		        setProgressBarIndeterminateVisibility(false);
 				Toast.makeText(PostActivity.this, getResources().getString(R.string.could_not_post_tweet_error) + message, Toast.LENGTH_LONG).show();
 			}
 			

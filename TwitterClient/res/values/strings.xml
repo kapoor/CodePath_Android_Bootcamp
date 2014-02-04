@@ -4,7 +4,8 @@
 	<string name="app_name">Twitter Client</string>
 	<string name="login_label">Log in</string>
 	<string name="title_activity_timeline">TimelineActivity</string>
-	<string name="could_not_get_tweets_error">Sorry, could not get tweets! Error: </string>
+	<string name="could_not_get_tweets_error">Could not get tweets from the web, switching to offline mode.</string>
+    <string name="could_not_get_user_error">Could not get user details from the web, switching to offline mode.</string>
 	<string name="post">Post</string>
 	<string name="refresh">Refresh</string>
 	
