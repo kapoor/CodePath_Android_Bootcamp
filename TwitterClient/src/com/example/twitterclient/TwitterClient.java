@@ -46,13 +46,13 @@ public class TwitterClient extends OAuthBaseClient {
     		params.put("max_id", Long.toString(maxId));
     	}
     	
-    	client.setTimeout(Constants.httpTimeoutMilliSeconds);
+    	client.setTimeout(Constants.httpCallTimeoutMilliSeconds);
     	client.get(url, params, handler);
     }
 
     public void getMyInfo(AsyncHttpResponseHandler handler) {
     	String url = getApiUrl("account/verify_credentials.json");
-        client.setTimeout(Constants.httpTimeoutMilliSeconds);
+        client.setTimeout(Constants.httpCallTimeoutMilliSeconds);
     	client.get(url, null, handler);
     }
     
@@ -60,7 +60,7 @@ public class TwitterClient extends OAuthBaseClient {
     	String url = getApiUrl("statuses/update.json");
     	RequestParams params = new RequestParams();
     	params.put("status", tweetStatus);
-        client.setTimeout(Constants.httpTimeoutMilliSeconds);
+        client.setTimeout(Constants.httpCallTimeoutMilliSeconds);
     	client.post(url, params, handler);
     }
 
