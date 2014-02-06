@@ -2,7 +2,9 @@ package com.example.fragmentdemo;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
+import android.view.View;
 
 public class MainActivity extends FragmentActivity {
 
@@ -19,4 +21,22 @@ public class MainActivity extends FragmentActivity {
 		return true;
 	}
 
+	public void onFirst(View v) {
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		
+		// NOTE: To get the fragment, you have to use getFragmentById instead of getViewbyId
+		// NOTE: To get the fragment, you have to use getFragmentById instead of getViewbyId
+		
+		// Transactions are used to batch replaces together
+		// So you could have many replace statemetns here, 
+		// Android will queue them up and apply all of them at once 
+		ft.replace(R.id.flContainer, new FirstFragment());
+		ft.commit();
+	}
+
+	public void onSecond(View v) {
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		ft.replace(R.id.flContainer, new SecondFragment());
+		ft.commit();
+	}
 }

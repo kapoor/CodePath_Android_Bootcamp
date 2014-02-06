@@ -8,9 +8,10 @@
 	android:paddingTop="@dimen/activity_vertical_margin"
 	tools:context=".MainActivity" >
 
-    <fragment
+	<!-- Static Fragments -->
+    <!-- fragment
     	android:id="@+id/fragment1"
-    	android:name="com.example.fragmentdemo.FristFragment"
+    	android:name="com.example.fragmentdemo.FirstFragment"
     	android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
     	android:layout_alignParentLeft="true"
@@ -19,7 +20,7 @@
 
     <fragment
     	android:id="@+id/fragment2"
-    	android:name="com.example.fragmentdemo.FristFragment"
+    	android:name="com.example.fragmentdemo.FirstFragment"
     	android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
     	android:layout_alignParentLeft="true"
@@ -28,11 +29,43 @@
 
     <fragment
     	android:id="@+id/fragment3"
-    	android:name="com.example.fragmentdemo.FristFragment"
+    	android:name="com.example.fragmentdemo.FirstFragment"
     	android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
     	android:layout_alignParentLeft="true"
     	android:layout_below="@+id/fragment2"
-    	tools:layout="@layout/fragment_first" />
+    	tools:layout="@layout/fragment_first" / -->
+
+    <Button
+    	android:id="@+id/btnSecond"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:layout_alignBaseline="@+id/btnFirst"
+    	android:layout_alignBottom="@+id/btnFirst"
+    	android:layout_marginLeft="32dp"
+    	android:layout_toRightOf="@+id/btnFirst"
+    	android:onClick="onFirst"
+    	android:text="Second" />
+
+    <FrameLayout
+    	android:id="@+id/flContainer"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:layout_alignLeft="@+id/btnFirst"
+    	android:layout_alignParentBottom="true"
+    	android:layout_alignParentRight="true"
+    	android:layout_below="@+id/btnFirst"
+    	android:layout_marginTop="16dp" >
+
+    </FrameLayout>
+
+    <Button
+    	android:id="@+id/btnFirst"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:layout_alignParentLeft="true"
+    	android:layout_alignParentTop="true"
+    	android:onClick="onSecond"
+    	android:text="First" />
     
 </RelativeLayout>
