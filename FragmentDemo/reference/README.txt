@@ -1,0 +1,2 @@
+- Fragments wiki:  https://github.com/thecodepath/android_guides/wiki/Creating-and-Using-Fragments
+- Fragment lifecycle:  http://developer.android.com/images/fragment_lifecycle.png 
