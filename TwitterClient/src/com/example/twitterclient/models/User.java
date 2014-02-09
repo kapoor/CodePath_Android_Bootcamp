@@ -3,14 +3,16 @@ package com.example.twitterclient.models;
 import java.io.Serializable;
 import java.util.List;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 
 @Table(name = "Users")
-public class User extends BaseModel implements Serializable {
+public class User extends Model implements Serializable {
 	private static final long serialVersionUID = -3527299894278558921L;
 
 	// Define database columns and associated fields for ActiveAndroid
@@ -47,24 +49,23 @@ public class User extends BaseModel implements Serializable {
 		super();
 	}
 	
-    public User(JSONObject jsonObj) {
+    public User(JSONObject jsonObject) {
+
         try {
-            jsonObject = jsonObj;
-        } catch (Exception e) {
+        	// Set the instance variables
+    		name = jsonObject.getString("name");
+    		userId = jsonObject.getLong("id");
+    		screenName = jsonObject.getString("screen_name");
+    		profileImageUrl = jsonObject.getString("profile_image_url");
+    		profileBackgroundImageUrl = jsonObject.getString("profile_background_image_url");
+    		numTweets = jsonObject.getInt("statuses_count");
+    		followersCount = jsonObject.getInt("followers_count");
+    		friendsCount = jsonObject.getInt("friends_count");
+    		tagline = jsonObject.getString("description");
+        } catch (JSONException e) {
             e.printStackTrace();
             return;
         }
-        
-        // Set the instance variables
-		name = getString("name");
-		userId = getLong("id");
-		screenName = getString("screen_name");
-		profileImageUrl = getString("profile_image_url");
-		profileBackgroundImageUrl = getString("profile_background_image_url");
-		numTweets = getInt("statuses_count");
-		followersCount = getInt("followers_count");
-		friendsCount = getInt("friends_count");
-		tagline = getString("description");
 		
 		// Persist this object using ActiveAndroid
 		save();

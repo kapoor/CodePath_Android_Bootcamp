@@ -17,13 +17,14 @@ import android.content.Context;
 import android.text.format.DateUtils;
 
 import com.activeandroid.ActiveAndroid;
+import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 import com.example.twitterclient.util.Constants;
 
 @Table(name = "Tweets")
-public class Tweet extends BaseModel implements Serializable {
+public class Tweet extends Model implements Serializable {
 	
 	private static final long serialVersionUID = 6875000113655618590L;
 	private static final SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.getDefault());
@@ -54,21 +55,25 @@ public class Tweet extends BaseModel implements Serializable {
 		super();
 	}
 	
-    public Tweet(JSONObject jsonObj) {
+    public Tweet(JSONObject jsonObject) {
         try {
-            jsonObject = jsonObj;
-            user = new User(jsonObj.getJSONObject("user"));
+            user = new User(jsonObject.getJSONObject("user"));
         } catch (JSONException e) {
             e.printStackTrace();
             return;
         }
 
-        // Set the instance variables
-		tweetId = getLong("id");
-		timestamp = getString("created_at");
-		body = getString("text");
-		isFavorited = getBoolean("favorited");
-		isRetweeted = getBoolean("retweeted");
+        try {
+            // Set the instance variables
+    		tweetId = jsonObject.getLong("id");
+    		timestamp = jsonObject.getString("created_at");
+    		body = jsonObject.getString("text");
+    		isFavorited = jsonObject.getBoolean("favorited");
+    		isRetweeted = jsonObject.getBoolean("retweeted");
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return;
+        }
 		
 		// Persist this object using ActiveAndroid
 		save();

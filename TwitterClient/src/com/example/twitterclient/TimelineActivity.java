@@ -3,13 +3,11 @@ package com.example.twitterclient;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
@@ -39,6 +37,9 @@ public class TimelineActivity extends Activity {
     // Instance variables
     private User user;
     private long minId = -1;
+    
+    // Progress bar manipulation
+    private short completedHttpRequests = 0;
 
     
 	@Override
@@ -90,45 +91,61 @@ public class TimelineActivity extends Activity {
 
     public void reloadTweets() {
     	// Reset the parameters to their initial state
-        tweetsAdapter.clear();
     	minId = -1;
     	loadDataFromAPI();
+    }
+
+    // Hide the progress bar if all HTTP requests have completed
+    private void hideProgressBar() {
+    	completedHttpRequests++;
+    	if (completedHttpRequests == 0) {
+    		setProgressBarIndeterminateVisibility(false);
+    	}
     }
     
 	public void fetchUserData() {
 		
+        // Show the locally stored user profile cached from the last request
+        // and refresh it if the network request succeeds
+		user = User.getOfflineUser();
+		if (user != null) {
+			setTitle("@" + user.getScreenName());
+		}
+
         setProgressBarIndeterminateVisibility(true);
+        completedHttpRequests--;
 
 		MainApp.getRestClient().getMyInfo(new JsonHttpResponseHandler() {
 
 			@Override
 			public void onSuccess(JSONObject jsonUser) {
-				try {
-					setTitle("@" + jsonUser.getString("screen_name"));
-					user = new User(jsonUser);
-					
-			        setProgressBarIndeterminateVisibility(false);
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
+				user = new User(jsonUser);
+				setTitle("@" + user.getScreenName());
+				hideProgressBar();
 			}
 
 			@Override
 			public void onFailure(Throwable e, String message) {
                 Toast.makeText(getApplicationContext(), getString(R.string.could_not_get_user_error), Toast.LENGTH_SHORT).show();
-
-                // Fetch locally stored user record
-				user = User.getOfflineUser();
-				setTitle("@" + user.getScreenName());
-
-		        setProgressBarIndeterminateVisibility(false);
+				hideProgressBar();
 			}
 		});
 	}
 
 	
     private void loadDataFromAPI() {
+
+        // For first load, show the locally stored tweets cached from the last request
+        // and refresh them if the network request succeeds
+        if (minId == -1) {
+	        tweets = Tweet.getOfflineTweets();
+	        if (tweets != null && tweets.size() > 0) {
+	        	tweetsAdapter.addAll(tweets);
+	        }
+        }
+
         setProgressBarIndeterminateVisibility(true);
+        completedHttpRequests--;
 
 		MainApp.getRestClient().getHomeTimeline(minId, new JsonHttpResponseHandler() {
 			
@@ -136,6 +153,12 @@ public class TimelineActivity extends Activity {
 			public void onSuccess(JSONArray jsonTweets) {
 				
 				tweets = Tweet.fromJson(jsonTweets);
+				
+				// If there are offline results already loaded for the first request,
+				// then clear them first 
+				if (minId == -1) {
+					tweetsAdapter.clear();
+				}
 				
                 // Update the the adapter
                 tweetsAdapter.addAll(tweets);
@@ -145,21 +168,15 @@ public class TimelineActivity extends Activity {
                 // the first tweet of the next batch
                 minId = (tweets.get(tweets.size() - 1)).getTweetId() - 1;
                 
-		        setProgressBarIndeterminateVisibility(false);
+				hideProgressBar();
 			}
 			
             @Override
             public void onFailure(Throwable e, String message) {
 
                 Toast.makeText(getApplicationContext(), getString(R.string.could_not_get_tweets_error), Toast.LENGTH_SHORT).show();
-                
-                // Fetch locally stored tweets
-                tweets = Tweet.getOfflineTweets();
-                
-                // Update the the adapter
-                tweetsAdapter.addAll(tweets);
-                
-		        setProgressBarIndeterminateVisibility(false);
+				hideProgressBar();
+
             }
 		});
 	}

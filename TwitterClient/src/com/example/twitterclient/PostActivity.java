@@ -40,12 +40,12 @@ public class PostActivity extends Activity {
 
         setupViews();
 
+        // Setup data
         User user = (User) getIntent().getSerializableExtra("user");
 		tvUser.setText('@' + user.getScreenName());
 		ImageLoader.getInstance().displayImage(user.getProfileImageUrl(), ivUserProfile);
 		
         addListeners();
-
 	}
     
     private void setupViews() {
