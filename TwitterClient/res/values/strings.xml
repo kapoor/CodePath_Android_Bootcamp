@@ -5,19 +5,24 @@
 	<string name="login_label">Log in</string>
 	<string name="title_activity_timeline">TimelineActivity</string>
 	<string name="could_not_get_tweets_error">Could not get latest tweets from the web. Try refreshing</string>
-    <string name="could_not_get_user_error">Could not get latest user details from the web. Try reopening the app</string>
+	<string name="could_not_get_user_error">Could not get latest user details from the web. Try reopening the app</string>
 	<string name="post">Post</string>
-	<string name="refresh">Refresh</string>
-	
-    <string name="title_activity_post">PostActivity</string>
+	<string name="profile">Profile</string>
+	<string name="title_activity_post">PostActivity</string>
 	<string name="compose_tweet">Compose Tweet</string>
-	
-    <string name="cancel">Cancel</string>
-    <string name="tweet">Tweet</string>
-    <string name="enter_tweet_here_hint">Enter Tweet Here</string>
-    <string name="twitter_handle">Twitter handle</string>
+	<string name="cancel">Cancel</string>
+	<string name="tweet">Tweet</string>
+	<string name="enter_tweet_here_hint">Enter Tweet Here</string>
+	<string name="twitter_handle">Twitter handle</string>
+    <string name="name">Name</string>
+    <string name="tagline">Tagline</string>
+    <string name="total_followers">Total Followers</string>
+    <string name="total_following">Total Following</string>
     <string name="twitter_profile_image">Twitter profile image</string>
-    <string name="could_not_post_tweet_error">Could not post tweet! Error: </string>
-    
+	<string name="could_not_post_tweet_error">Could not post tweet! Error: </string>
+	<string name="title_activity_profile">ProfileActivity</string>
+	<string name="action_settings">Settings</string>
+    <string name="home">Home</string>
+    <string name="mentions">Mentions</string>
     
 </resources>

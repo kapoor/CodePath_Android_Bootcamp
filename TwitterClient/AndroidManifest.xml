@@ -51,6 +51,10 @@
 			android:name="com.example.twitterclient.PostActivity"
 			android:label="@string/compose_tweet" >
 		</activity>
+		<activity
+			android:name="com.example.twitterclient.ProfileActivity"
+			android:label="@string/title_activity_profile" >
+		</activity>
 	</application>
 
 </manifest>
