@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 
-public class FragmentTabListener<T extends Fragment> implements TabListener {
+public class SupportFragmentTabListener<T extends Fragment> implements TabListener {
     private Fragment mFragment;
 	private final FragmentActivity mActivity;
 	private final String mTag;
@@ -15,7 +15,7 @@ public class FragmentTabListener<T extends Fragment> implements TabListener {
         
     // This version defaults to replacing the entire activity content area
     // new FragmentTabListener<SomeFragment>(this, "first", SomeFragment.class))
-	public FragmentTabListener(FragmentActivity activity, String tag, Class<T> clz) {
+	public SupportFragmentTabListener(FragmentActivity activity, String tag, Class<T> clz) {
 		mActivity = activity;
 		mTag = tag;
 		mClass = clz;
@@ -24,7 +24,7 @@ public class FragmentTabListener<T extends Fragment> implements TabListener {
         
     // This version supports specifying the container to replace with fragment content
     // new FragmentTabListener<SomeFragment>(R.id.flContent, this, "first", SomeFragment.class))
-	public FragmentTabListener(int fragmentContainerId, FragmentActivity activity, 
+	public SupportFragmentTabListener(int fragmentContainerId, FragmentActivity activity, 
             String tag, Class<T> clz) {
 		mActivity = activity;
 		mTag = tag;

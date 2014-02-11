@@ -70,3 +70,10 @@ Student Learning Actions:
 - Explore using fragments for navigation with action bar with tabs
 
 
+
+Questions:
+
+- Generally what is the sequence of fragment lifecycle vs. activity lifecycle?
+- Code TODOs
+- How to use SupportFragmentTabListener from here http://guides.thecodepath.com/android/ActionBar-Tabs-with-Fragments  in TimeLineActivity to select tweets
+

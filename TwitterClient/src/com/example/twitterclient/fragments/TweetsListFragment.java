@@ -39,14 +39,7 @@ public class TweetsListFragment extends Fragment {
     private short completedHttpRequests = 0;
     private Constants.FragmentType ft = Constants.FragmentType.HOME;  // Default
 
-    /* NEW CODE */
 	private static String fragmentTypeCodeExtra = "fragmentTypeCode";
-
-    
-    /*
-     * OLD CODE
-    public abstract void setFragmentType();
-    */
 
     public void setFragmentType(Constants.FragmentType inFT) {
     	ft = inFT;
@@ -61,10 +54,10 @@ public class TweetsListFragment extends Fragment {
 	}
 
 	/* NEW CODE */
-	public static TweetsListFragment newInstance(int inFT) {
+	public static TweetsListFragment newInstance(Constants.FragmentType inFT) {
 		TweetsListFragment tlf = new TweetsListFragment();
 		Bundle args = new Bundle();
-		args.putInt(fragmentTypeCodeExtra, inFT);
+		args.putSerializable(fragmentTypeCodeExtra, inFT);
 		tlf.setArguments(args);
 		return tlf;
 	}
@@ -190,9 +183,7 @@ public class TweetsListFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		/* NEW CODE */
-		int extra = getArguments().getInt(fragmentTypeCodeExtra, Constants.FragmentType.HOME.getTypeCode());
-		ft = Constants.FragmentType.valueOf( String.valueOf(extra));
+		ft = (Constants.FragmentType) getArguments().getSerializable(fragmentTypeCodeExtra);
 	}
 	
 	//NOTE: Use this for view related items
@@ -204,11 +195,6 @@ public class TweetsListFragment extends Fragment {
 		setupViews(v);
 		setupAdapters();
 		setupListeners();
-		
-		/*
-		 * OLD CODE
-		setFragmentType();
-		*/
 
 		return v;
 	}

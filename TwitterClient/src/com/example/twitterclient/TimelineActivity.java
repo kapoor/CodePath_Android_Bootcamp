@@ -12,11 +12,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 
-import com.example.twitterclient.fragments.HomeTimelineFragment;
-import com.example.twitterclient.fragments.MentionsTimelineFragment;
 import com.example.twitterclient.fragments.TweetsListFragment;
 import com.example.twitterclient.util.Constants;
-import com.example.twitterclient.util.FragmentTabListener;
 
 public class TimelineActivity extends FragmentActivity implements TabListener {
 
@@ -67,16 +64,21 @@ public class TimelineActivity extends FragmentActivity implements TabListener {
     			.setText(getString(R.string.home))
     			.setTag("HomeTimelineFragment")
     			.setIcon(R.drawable.ic_tab_home)
-    			.setTabListener(new FragmentTabListener<HomeTimelineFragment>(R.id.frame_container, this,
-    					getString(R.string.home), HomeTimelineFragment.class));
+    			.setTabListener(this);
+    	// TODO: Fix this
+    	//		.setTabListener(new SupportFragmentTabListener<TweetsListFragment>(R.id.frame_container, this,
+    	//				getString(R.string.home), TweetsListFragment.class));
     	
     	Tab tabMentions = actionBar.newTab()
     			.setText(getString(R.string.mentions))
     			.setTag("MentionsTimelineFragment")
     			.setIcon(R.drawable.ic_tab_ampersand)
-    			.setTabListener(new FragmentTabListener<MentionsTimelineFragment>(R.id.frame_container, this,
-    					getString(R.string.mentions), MentionsTimelineFragment.class));
+    			.setTabListener(this);
+    	// TODO: Fix this    	
+    	//		.setTabListener(new SupportFragmentTabListener<TweetsListFragment>(R.id.frame_container, this,
+    	//				getString(R.string.home), TweetsListFragment.class));
     	
+
     	actionBar.addTab(tabHome);
     	actionBar.addTab(tabMentions);
     	actionBar.selectTab(tabHome);
@@ -129,37 +131,25 @@ public class TimelineActivity extends FragmentActivity implements TabListener {
 		startActivity(profileIntent);
     }
 
+
 	@Override
-	public void onTabReselected(Tab tab, FragmentTransaction ft) {
-		
+	public void onTabSelected(Tab tab, FragmentTransaction ft) {
 		fts = fragmentManager.beginTransaction();
 		
-		/*
-		 * OLD CODE
 		if(tab.getTag() == "HomeTimelineFragment") {
-			fts.replace(R.id.frame_container, new HomeTimelineFragment());
+			fts.replace(R.id.frame_container, TweetsListFragment.newInstance(Constants.FragmentType.HOME));
 		}
 		else {
-			fts.replace(R.id.frame_container, new MentionsTimelineFragment());
-		}
-		*/
-		
-		/* NEW CODE */
-		if(tab.getTag() == "HomeTimelineFragment") {
-			fts.replace(R.id.frame_container, TweetsListFragment.newInstance(Constants.FragmentType.HOME.getTypeCode()));
-		}
-		else {
-			fts.replace(R.id.frame_container, TweetsListFragment.newInstance(Constants.FragmentType.MENTIONS.getTypeCode()));
+			fts.replace(R.id.frame_container, TweetsListFragment.newInstance(Constants.FragmentType.MENTIONS));
 		}
 		
 		fts.commit();
 	}
 
-
 	@Override
-	public void onTabSelected(Tab tab, FragmentTransaction ft) {
+	public void onTabReselected(Tab tab, FragmentTransaction ft) {
+	
 	}
-
 
 	@Override
 	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
