@@ -45,17 +45,20 @@ public abstract class TweetsListFragment extends Fragment {
     public Constants.FragmentType getFragmentType() {
     	return ft;
     }
-
-    @Override
-	public View onCreateView(LayoutInflater inf, ViewGroup parent, Bundle savedInstanceState) {
-		return inf.inflate(R.layout.fragment_tweets_list, parent, false);
+    
+	public TweetsAdapter getAdapter() {
+		return tweetsAdapter;
 	}
-	
-    private void setupViews() {
-    	lvTweets = (PullToRefreshListView) getActivity().findViewById(R.id.lvTweets);
+
+    private void setupViews(View v) {
+    	lvTweets = (PullToRefreshListView) v.findViewById(R.id.lvTweets);
     }
     
     private void setupAdapters() {
+    	// NOTE: Since the fragment is retained and reused a lot more than it's enclosing
+    	// activity, calling getActivity() may can cause a memory leak because the
+    	// adapter will hold a reference to the calling activity each time it's intantiated.
+    	// TODO: What is the right way to do this?
 		tweetsAdapter = new TweetsAdapter(getActivity(), tweets);
 		lvTweets.setAdapter(tweetsAdapter);
     }
@@ -85,7 +88,7 @@ public abstract class TweetsListFragment extends Fragment {
     private void hideProgressBar() {
     	completedHttpRequests++;
     	if (completedHttpRequests == 0) {
-    		//setProgressBarIndeterminateVisibility(false);
+    		getActivity().setProgressBarIndeterminateVisibility(false);
     	}
     }
     
@@ -106,7 +109,7 @@ public abstract class TweetsListFragment extends Fragment {
 	        }
         }
 
-        //setProgressBarIndeterminateVisibility(true);
+        getActivity().setProgressBarIndeterminateVisibility(true);
 
         JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
 			
@@ -136,7 +139,10 @@ public abstract class TweetsListFragment extends Fragment {
 			
             @Override
             public void onFailure(Throwable e, String message) {
-
+            	// NOTE: Since the fragment is retained and reused a lot more than it's enclosing
+            	// activity, calling getActivity() may can cause a memory leak because the
+            	// adapter will hold a reference to the calling activity each time it's intantiated.
+            	// TODO: What is the right way to do this?
                 Toast.makeText(getActivity(), getString(R.string.could_not_get_tweets_error), Toast.LENGTH_SHORT).show();
 				hideProgressBar();
 
@@ -146,29 +152,38 @@ public abstract class TweetsListFragment extends Fragment {
         // Call the appropriate HTTP method
         switch(getFragmentType()) {
         case HOME:
+        	completedHttpRequests--;
         	MainApp.getRestClient().getHomeTimeline(minId, responseHandler);
         	break;
         case MENTIONS:
+        	completedHttpRequests--;
         	MainApp.getRestClient().getMentionsTimeline(minId, responseHandler);
         	break;
         case USER:
+        	completedHttpRequests--;
         	MainApp.getRestClient().getUserTimeline(minId, responseHandler);
         	break;
         }
 	}
-    
+
+    //NOTE: Use this for non-view items
 	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		
-		setupViews();
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+	}
+	
+	//NOTE: Use this for view related items
+    @Override
+	public View onCreateView(LayoutInflater inf, ViewGroup parent, Bundle savedInstanceState) {
+
+    	View v = inf.inflate(R.layout.fragment_tweets_list, parent, false);
+
+		setupViews(v);
 		setupAdapters();
 		setupListeners();
 		setFragmentType();
-	}
-	
-	public TweetsAdapter getAdapter() {
-		return tweetsAdapter;
+
+		return v;
 	}
 
 }

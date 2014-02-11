@@ -24,7 +24,6 @@ public class TimelineActivity extends FragmentActivity implements TabListener {
 	private static int REQUEST_CODE = 1;
 
     // Fragments
-    TweetsListFragment fragmentTweets;
 	FragmentManager fragmentManager;
 	android.support.v4.app.FragmentTransaction fts;
     
@@ -58,8 +57,13 @@ public class TimelineActivity extends FragmentActivity implements TabListener {
     	actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
     	actionBar.setDisplayShowTitleEnabled(true);
     	
+    	// TODO: Since the fragments in these tabs might be used elsewhere, you 
+    	// should not instantiate tabs with new fragments each time you switch
+    	// to this activity
+    	// Use SmartFragmentStatePagerAdapter instead to cache the fragments like this:
+    	//		https://github.com/thecodepath/android_guides/wiki/ViewPager-with-FragmentPagerAdapter
     	Tab tabHome = actionBar.newTab()
-    			.setText(getString(R.string.mentions))
+    			.setText(getString(R.string.home))
     			.setTag("HomeTimelineFragment")
     			.setIcon(R.drawable.ic_tab_home)
     			.setTabListener(new FragmentTabListener<HomeTimelineFragment>(R.id.frame_container, this,
@@ -78,7 +82,6 @@ public class TimelineActivity extends FragmentActivity implements TabListener {
     }
     
     private void setupAdapters() {
-		//tweetsAdapter = fragmentTweets.getAdapter();
     }
     
     private void setupListeners() {

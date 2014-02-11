@@ -14,7 +14,6 @@ public class MentionsTimelineFragment extends TweetsListFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		reloadTweets();
 	}
 	
 	@Override

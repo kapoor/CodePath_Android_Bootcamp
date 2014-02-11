@@ -58,6 +58,10 @@ User Stories:
 - Optional: User can search for tweets matching a particular query and see results
 - Optional: User can view their direct messages (or send new ones)
 
+-- Cleanup TODOs in code
+-- How to communicate with fragments: https://github.com/thecodepath/android_guides/wiki/Creating-and-Using-Fragments
+
+
 
 Student Learning Actions:
 
