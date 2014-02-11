@@ -16,8 +16,11 @@ public class HomeTimelineFragment extends TweetsListFragment {
 		super.onActivityCreated(savedInstanceState);
 	}
 	
+	/* 
+	 * OLD CODE
 	@Override
 	public void setFragmentType() {
 		setFragmentType(Constants.FragmentType.HOME);
 	}
+	*/
 }

@@ -15,6 +15,7 @@ import android.view.Window;
 import com.example.twitterclient.fragments.HomeTimelineFragment;
 import com.example.twitterclient.fragments.MentionsTimelineFragment;
 import com.example.twitterclient.fragments.TweetsListFragment;
+import com.example.twitterclient.util.Constants;
 import com.example.twitterclient.util.FragmentTabListener;
 
 public class TimelineActivity extends FragmentActivity implements TabListener {
@@ -87,12 +88,10 @@ public class TimelineActivity extends FragmentActivity implements TabListener {
     private void setupListeners() {
     }
 
-    /*
     // Hide the progress bar if all HTTP requests have completed
     private void hideProgressBar() {
 		setProgressBarIndeterminateVisibility(false);
     }
-    */
     
 
     @Override
@@ -135,11 +134,22 @@ public class TimelineActivity extends FragmentActivity implements TabListener {
 		
 		fts = fragmentManager.beginTransaction();
 		
+		/*
+		 * OLD CODE
 		if(tab.getTag() == "HomeTimelineFragment") {
 			fts.replace(R.id.frame_container, new HomeTimelineFragment());
 		}
 		else {
 			fts.replace(R.id.frame_container, new MentionsTimelineFragment());
+		}
+		*/
+		
+		/* NEW CODE */
+		if(tab.getTag() == "HomeTimelineFragment") {
+			fts.replace(R.id.frame_container, TweetsListFragment.newInstance(Constants.FragmentType.HOME.getTypeCode()));
+		}
+		else {
+			fts.replace(R.id.frame_container, TweetsListFragment.newInstance(Constants.FragmentType.MENTIONS.getTypeCode()));
 		}
 		
 		fts.commit();

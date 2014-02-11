@@ -22,7 +22,10 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import eu.erikw.PullToRefreshListView;
 import eu.erikw.PullToRefreshListView.OnRefreshListener;
 
+/*
 public abstract class TweetsListFragment extends Fragment {
+*/
+public class TweetsListFragment extends Fragment {
 	
     // Views
     private PullToRefreshListView lvTweets;
@@ -36,7 +39,14 @@ public abstract class TweetsListFragment extends Fragment {
     private short completedHttpRequests = 0;
     private Constants.FragmentType ft = Constants.FragmentType.HOME;  // Default
 
+    /* NEW CODE */
+	private static String fragmentTypeCodeExtra = "fragmentTypeCode";
+
+    
+    /*
+     * OLD CODE
     public abstract void setFragmentType();
+    */
 
     public void setFragmentType(Constants.FragmentType inFT) {
     	ft = inFT;
@@ -50,6 +60,15 @@ public abstract class TweetsListFragment extends Fragment {
 		return tweetsAdapter;
 	}
 
+	/* NEW CODE */
+	public static TweetsListFragment newInstance(int inFT) {
+		TweetsListFragment tlf = new TweetsListFragment();
+		Bundle args = new Bundle();
+		args.putInt(fragmentTypeCodeExtra, inFT);
+		tlf.setArguments(args);
+		return tlf;
+	}
+	 
     private void setupViews(View v) {
     	lvTweets = (PullToRefreshListView) v.findViewById(R.id.lvTweets);
     }
@@ -57,8 +76,8 @@ public abstract class TweetsListFragment extends Fragment {
     private void setupAdapters() {
     	// NOTE: Since the fragment is retained and reused a lot more than it's enclosing
     	// activity, calling getActivity() may can cause a memory leak because the
-    	// adapter will hold a reference to the calling activity each time it's intantiated.
-    	// TODO: What is the right way to do this?
+    	// adapter will hold a reference to the calling activity each time it's instantiated.
+    	// TODO: Is there another right way to do this?
 		tweetsAdapter = new TweetsAdapter(getActivity(), tweets);
 		lvTweets.setAdapter(tweetsAdapter);
     }
@@ -141,8 +160,8 @@ public abstract class TweetsListFragment extends Fragment {
             public void onFailure(Throwable e, String message) {
             	// NOTE: Since the fragment is retained and reused a lot more than it's enclosing
             	// activity, calling getActivity() may can cause a memory leak because the
-            	// adapter will hold a reference to the calling activity each time it's intantiated.
-            	// TODO: What is the right way to do this?
+            	// adapter will hold a reference to the calling activity each time it's instantiated.
+            	// TODO: Is there another right way to do this?
                 Toast.makeText(getActivity(), getString(R.string.could_not_get_tweets_error), Toast.LENGTH_SHORT).show();
 				hideProgressBar();
 
@@ -170,6 +189,10 @@ public abstract class TweetsListFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		/* NEW CODE */
+		int extra = getArguments().getInt(fragmentTypeCodeExtra, Constants.FragmentType.HOME.getTypeCode());
+		ft = Constants.FragmentType.valueOf( String.valueOf(extra));
 	}
 	
 	//NOTE: Use this for view related items
@@ -181,7 +204,11 @@ public abstract class TweetsListFragment extends Fragment {
 		setupViews(v);
 		setupAdapters();
 		setupListeners();
+		
+		/*
+		 * OLD CODE
 		setFragmentType();
+		*/
 
 		return v;
 	}
