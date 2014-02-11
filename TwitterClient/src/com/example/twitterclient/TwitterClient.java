@@ -48,20 +48,6 @@ public class TwitterClient extends OAuthBaseClient {
     	client.setTimeout(Constants.httpCallTimeoutMilliSeconds);
     	client.get(url, params, handler);
     }
-
-    public void getMyInfo(AsyncHttpResponseHandler handler) {
-    	String url = getApiUrl("account/verify_credentials.json");
-        client.setTimeout(Constants.httpCallTimeoutMilliSeconds);
-    	client.get(url, null, handler);
-    }
-    
-    public void postTweet(String tweetStatus, AsyncHttpResponseHandler handler) {
-    	String url = getApiUrl("statuses/update.json");
-    	RequestParams params = new RequestParams();
-    	params.put("status", tweetStatus);
-        client.setTimeout(Constants.httpCallTimeoutMilliSeconds);
-    	client.post(url, params, handler);
-    }
     
     public void getMentionsTimeline(long maxId, AsyncHttpResponseHandler handler) {
     	String url = getApiUrl("statuses/mentions_timeline.json");
@@ -85,6 +71,20 @@ public class TwitterClient extends OAuthBaseClient {
     	
     	client.setTimeout(Constants.httpCallTimeoutMilliSeconds);
     	client.get(url, params, handler);
+    }
+
+    public void getMyInfo(AsyncHttpResponseHandler handler) {
+    	String url = getApiUrl("account/verify_credentials.json");
+        client.setTimeout(Constants.httpCallTimeoutMilliSeconds);
+    	client.get(url, null, handler);
+    }
+    
+    public void postTweet(String tweetStatus, AsyncHttpResponseHandler handler) {
+    	String url = getApiUrl("statuses/update.json");
+    	RequestParams params = new RequestParams();
+    	params.put("status", tweetStatus);
+        client.setTimeout(Constants.httpCallTimeoutMilliSeconds);
+    	client.post(url, params, handler);
     }
 
 }

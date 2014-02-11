@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.json.JSONArray;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -17,17 +18,19 @@ import com.example.twitterclient.TweetsAdapter;
 import com.example.twitterclient.models.Tweet;
 import com.example.twitterclient.util.Constants;
 import com.example.twitterclient.util.EndlessScrollListener;
+import com.example.twitterclient.util.FragmentInterface;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import eu.erikw.PullToRefreshListView;
 import eu.erikw.PullToRefreshListView.OnRefreshListener;
 
 /*
-public abstract class TweetsListFragment extends Fragment {
+public abstract class TimelineFragment extends Fragment {
 */
-public class TweetsListFragment extends Fragment {
+public class TimelineFragment extends Fragment {
 	
     // Views
+	private View fragmentTweetsListView;
     private PullToRefreshListView lvTweets;
     
     // Adapters
@@ -36,8 +39,8 @@ public class TweetsListFragment extends Fragment {
 	// Instance variables
     private long minId = -1;
     private ArrayList<Tweet> tweets = new ArrayList<Tweet>();
-    private short completedHttpRequests = 0;
     private Constants.FragmentType ft = Constants.FragmentType.HOME;  // Default
+    private FragmentInterface fragmentIfListener;
 
 	private static String fragmentTypeCodeExtra = "fragmentTypeCode";
 
@@ -53,17 +56,16 @@ public class TweetsListFragment extends Fragment {
 		return tweetsAdapter;
 	}
 
-	/* NEW CODE */
-	public static TweetsListFragment newInstance(Constants.FragmentType inFT) {
-		TweetsListFragment tlf = new TweetsListFragment();
+	public static TimelineFragment newInstance(Constants.FragmentType inFT) {
+		TimelineFragment tlf = new TimelineFragment();
 		Bundle args = new Bundle();
 		args.putSerializable(fragmentTypeCodeExtra, inFT);
 		tlf.setArguments(args);
 		return tlf;
 	}
 	 
-    private void setupViews(View v) {
-    	lvTweets = (PullToRefreshListView) v.findViewById(R.id.lvTweets);
+    private void setupViews() {
+    	lvTweets = (PullToRefreshListView) fragmentTweetsListView.findViewById(R.id.lvTweets);
     }
     
     private void setupAdapters() {
@@ -97,11 +99,8 @@ public class TweetsListFragment extends Fragment {
     }
 
     // Hide the progress bar if all HTTP requests have completed
-    private void hideProgressBar() {
-    	completedHttpRequests++;
-    	if (completedHttpRequests == 0) {
-    		getActivity().setProgressBarIndeterminateVisibility(false);
-    	}
+    public void hideProgressBar() {
+		fragmentIfListener.hideProgressBar();
     }
     
     public void reloadTweets() {
@@ -121,7 +120,8 @@ public class TweetsListFragment extends Fragment {
 	        }
         }
 
-        getActivity().setProgressBarIndeterminateVisibility(true);
+        // TODO: This is bad, needs to change. Implement show/hide progress bar i/f in activity 
+        fragmentIfListener.showProgressBar();
 
         JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
 			
@@ -164,15 +164,12 @@ public class TweetsListFragment extends Fragment {
         // Call the appropriate HTTP method
         switch(getFragmentType()) {
         case HOME:
-        	completedHttpRequests--;
         	MainApp.getRestClient().getHomeTimeline(minId, responseHandler);
         	break;
         case MENTIONS:
-        	completedHttpRequests--;
         	MainApp.getRestClient().getMentionsTimeline(minId, responseHandler);
         	break;
         case USER:
-        	completedHttpRequests--;
         	MainApp.getRestClient().getUserTimeline(minId, responseHandler);
         	break;
         }
@@ -182,7 +179,6 @@ public class TweetsListFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
 		ft = (Constants.FragmentType) getArguments().getSerializable(fragmentTypeCodeExtra);
 	}
 	
@@ -190,13 +186,25 @@ public class TweetsListFragment extends Fragment {
     @Override
 	public View onCreateView(LayoutInflater inf, ViewGroup parent, Bundle savedInstanceState) {
 
-    	View v = inf.inflate(R.layout.fragment_tweets_list, parent, false);
+    	fragmentTweetsListView = inf.inflate(R.layout.fragment_timeline, parent, false);
 
-		setupViews(v);
+		setupViews();
 		setupAdapters();
 		setupListeners();
 
-		return v;
+		return fragmentTweetsListView;
 	}
+    
+    // TODO: Refactor this out in a base class since all fragments should implement this interface
+    // Store the listener (activity) that will have events fired once the fragment is attached
+    @Override
+    public void onAttach(Activity activity) {
+    	super.onAttach(activity);
+		if (activity instanceof FragmentInterface) {
+			fragmentIfListener = (FragmentInterface) activity;
+		} else {
+			throw new ClassCastException(activity.toString() + " must implement FragmentInterface");
+		}
+    }
 
 }

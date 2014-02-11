@@ -5,7 +5,7 @@
     tools:context=".TimelineActivity" >
 
     <FrameLayout
-    	android:id="@+id/frame_container"
+    	android:id="@+id/frame_container_timeline"
     	android:layout_width="fill_parent"
     	android:layout_height="fill_parent"
     	android:layout_alignParentBottom="true"

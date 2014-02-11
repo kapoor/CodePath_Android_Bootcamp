@@ -1,5 +1,7 @@
 package com.example.twitterclient;
 
+import org.json.JSONObject;
+
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
@@ -11,19 +13,25 @@ import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
+import android.widget.Toast;
 
-import com.example.twitterclient.fragments.TweetsListFragment;
+import com.example.twitterclient.fragments.TimelineFragment;
+import com.example.twitterclient.models.User;
 import com.example.twitterclient.util.Constants;
+import com.example.twitterclient.util.FragmentInterface;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
-public class TimelineActivity extends FragmentActivity implements TabListener {
+public class TimelineActivity extends FragmentActivity implements TabListener, FragmentInterface {
 
-	// Constants
-	public static final String LOG_TAG = TimelineActivity.class.getName();
+	// Instance variables
+	//private static final String LOG_TAG = TimelineActivity.class.getName();
 	private static int REQUEST_CODE = 1;
+    private User user;
+    private short remainingHttpRequests = 0;
 
     // Fragments
-	FragmentManager fragmentManager;
-	android.support.v4.app.FragmentTransaction fts;
+	private FragmentManager fragmentManager;
+	private android.support.v4.app.FragmentTransaction fts;
     
     
 	@Override
@@ -34,10 +42,13 @@ public class TimelineActivity extends FragmentActivity implements TabListener {
 
 		setContentView(R.layout.activity_timeline);
 		
+		// TODO: Refactor all of these methods out
         setupViews();
         setupFragments();
         setupAdapters();
         setupListeners();
+        
+        fetchUserData();
         
         setupNavigationTabs();
 	}
@@ -66,8 +77,8 @@ public class TimelineActivity extends FragmentActivity implements TabListener {
     			.setIcon(R.drawable.ic_tab_home)
     			.setTabListener(this);
     	// TODO: Fix this
-    	//		.setTabListener(new SupportFragmentTabListener<TweetsListFragment>(R.id.frame_container, this,
-    	//				getString(R.string.home), TweetsListFragment.class));
+    	//		.setTabListener(new SupportFragmentTabListener<TimelineFragment>(R.id.frame_container_timeline, this,
+    	//				getString(R.string.home), TimelineFragment.class));
     	
     	Tab tabMentions = actionBar.newTab()
     			.setText(getString(R.string.mentions))
@@ -75,8 +86,8 @@ public class TimelineActivity extends FragmentActivity implements TabListener {
     			.setIcon(R.drawable.ic_tab_ampersand)
     			.setTabListener(this);
     	// TODO: Fix this    	
-    	//		.setTabListener(new SupportFragmentTabListener<TweetsListFragment>(R.id.frame_container, this,
-    	//				getString(R.string.home), TweetsListFragment.class));
+    	//		.setTabListener(new SupportFragmentTabListener<TimelineFragment>(R.id.frame_container_timeline, this,
+    	//				getString(R.string.home), TimelineFragment.class));
     	
 
     	actionBar.addTab(tabHome);
@@ -90,11 +101,48 @@ public class TimelineActivity extends FragmentActivity implements TabListener {
     private void setupListeners() {
     }
 
-    // Hide the progress bar if all HTTP requests have completed
-    private void hideProgressBar() {
-		setProgressBarIndeterminateVisibility(false);
+    // TODO: Refactor this out in a base class since all fragments do this
+    // NOTE: Progress bar is owned by the activity and can only be hidden by it
+    @Override
+    public void showProgressBar() {
+    	remainingHttpRequests++;
+    	setProgressBarIndeterminateVisibility(true);
     }
-    
+
+    @Override
+    public void hideProgressBar() {
+    	if (--remainingHttpRequests == 0) {
+    		setProgressBarIndeterminateVisibility(false);
+    	}
+    }
+   
+    public void fetchUserData() {
+
+        // Show the locally stored user profile cached from the last request
+        // and refresh it if the network request succeeds
+		user = User.getOfflineUser();
+		if (user != null) {
+			setTitle("@" + user.getScreenName());
+		}
+
+        setProgressBarIndeterminateVisibility(true);
+
+		MainApp.getRestClient().getMyInfo(new JsonHttpResponseHandler() {
+
+			@Override
+			public void onSuccess(JSONObject jsonUser) {
+				user = new User(jsonUser);
+				setTitle("@" + user.getScreenName());
+				hideProgressBar();
+			}
+
+			@Override
+			public void onFailure(Throwable e, String message) {
+                Toast.makeText(getApplicationContext(), getString(R.string.could_not_get_user_error), Toast.LENGTH_SHORT).show();
+				hideProgressBar();
+			}
+		});
+	}
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -128,6 +176,7 @@ public class TimelineActivity extends FragmentActivity implements TabListener {
 
     public void onProfileViewAction(MenuItem mi) {
 		Intent profileIntent = new Intent(this, ProfileActivity.class);
+		profileIntent.putExtra(Constants.userExtra, user);
 		startActivity(profileIntent);
     }
 
@@ -137,10 +186,10 @@ public class TimelineActivity extends FragmentActivity implements TabListener {
 		fts = fragmentManager.beginTransaction();
 		
 		if(tab.getTag() == "HomeTimelineFragment") {
-			fts.replace(R.id.frame_container, TweetsListFragment.newInstance(Constants.FragmentType.HOME));
+			fts.replace(R.id.frame_container_timeline, TimelineFragment.newInstance(Constants.FragmentType.HOME));
 		}
 		else {
-			fts.replace(R.id.frame_container, TweetsListFragment.newInstance(Constants.FragmentType.MENTIONS));
+			fts.replace(R.id.frame_container_timeline, TimelineFragment.newInstance(Constants.FragmentType.MENTIONS));
 		}
 		
 		fts.commit();
