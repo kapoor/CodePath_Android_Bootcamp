@@ -13,13 +13,13 @@ public class SecondFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
       // Defines the xml file for the fragment
-      View view = inflater.inflate(R.layout.fragment_first, container, false);
+      View view = inflater.inflate(R.layout.fragment_second, container, false);
       
       // Setup handles to view objects here
 
       // NOTE: There is no such thing as findViewById() on a fragment. So there is no setContentView magic here
       // Instead you have to findViewById on the view
-      TextView tvFirst = (TextView) view.findViewById(R.id.textView1);
+      TextView tvFirst = (TextView) view.findViewById(R.id.checkBox1);
       return view;
     }
 }

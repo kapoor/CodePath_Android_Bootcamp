@@ -12,6 +12,11 @@ public class MainActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+		// Init activity with a default fragment
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		ft.replace(R.id.flContainer, new SecondFragment());
+		ft.commit();
 	}
 
 	@Override
@@ -21,7 +26,7 @@ public class MainActivity extends FragmentActivity {
 		return true;
 	}
 
-	public void onFirst(View v) {
+	public void onSecond(View v) {
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		
 		// NOTE: To get the fragment, you have to use getFragmentById instead of getViewbyId
@@ -30,13 +35,13 @@ public class MainActivity extends FragmentActivity {
 		// Transactions are used to batch replaces together
 		// So you could have many replace statemetns here, 
 		// Android will queue them up and apply all of them at once 
-		ft.replace(R.id.flContainer, new FirstFragment());
+		ft.replace(R.id.flContainer, new SecondFragment());
 		ft.commit();
 	}
 
-	public void onSecond(View v) {
+	public void onFirst(View v) {
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		ft.replace(R.id.flContainer, new SecondFragment());
+		ft.replace(R.id.flContainer, new FirstFragment());
 		ft.commit();
 	}
 }

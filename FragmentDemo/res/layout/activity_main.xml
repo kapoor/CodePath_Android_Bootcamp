@@ -44,7 +44,7 @@
     	android:layout_alignBottom="@+id/btnFirst"
     	android:layout_marginLeft="32dp"
     	android:layout_toRightOf="@+id/btnFirst"
-    	android:onClick="onFirst"
+    	android:onClick="onSecond"
     	android:text="Second" />
 
     <FrameLayout
@@ -65,7 +65,7 @@
     	android:layout_height="wrap_content"
     	android:layout_alignParentLeft="true"
     	android:layout_alignParentTop="true"
-    	android:onClick="onSecond"
+    	android:onClick="onFirst"
     	android:text="First" />
     
 </RelativeLayout>
