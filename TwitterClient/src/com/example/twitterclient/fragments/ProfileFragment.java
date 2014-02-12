@@ -14,9 +14,10 @@ import android.widget.Toast;
 
 import com.example.twitterclient.MainApp;
 import com.example.twitterclient.R;
+import com.example.twitterclient.activities.TimelineActivity;
 import com.example.twitterclient.models.User;
 import com.example.twitterclient.util.Constants;
-import com.example.twitterclient.util.FragmentInterface;
+import com.example.twitterclient.util.BaseFragmentInterface;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -24,7 +25,7 @@ public class ProfileFragment extends Fragment {
 
 	// Instance variables
 	private User user;
-    private FragmentInterface fragmentIfListener;
+    private BaseFragmentInterface fragmentIfListener;
 
     // Views
 	private View fragmentProfileView;
@@ -38,7 +39,7 @@ public class ProfileFragment extends Fragment {
 	public static ProfileFragment newInstance(User user) {
 		ProfileFragment profileFragment = new ProfileFragment();
 		Bundle args = new Bundle();
-		args.putSerializable(Constants.userExtra, user);
+		args.putSerializable(TimelineActivity.userExtra, user);
 		profileFragment.setArguments(args);
 		return profileFragment;
 	}
@@ -48,7 +49,7 @@ public class ProfileFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 
 		// Get back arguments
-		user = (User) getArguments().getSerializable(Constants.userExtra); 
+		user = (User) getArguments().getSerializable(TimelineActivity.userExtra); 
 	}
 
 	@Override
@@ -112,8 +113,8 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
     	super.onAttach(activity);
-		if (activity instanceof FragmentInterface) {
-			fragmentIfListener = (FragmentInterface) activity;
+		if (activity instanceof BaseFragmentInterface) {
+			fragmentIfListener = (BaseFragmentInterface) activity;
 		} else {
 			throw new ClassCastException(activity.toString() + " must implement FragmentInterface");
 		}

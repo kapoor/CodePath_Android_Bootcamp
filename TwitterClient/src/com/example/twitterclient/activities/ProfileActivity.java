@@ -1,4 +1,4 @@
-package com.example.twitterclient;
+package com.example.twitterclient.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -6,12 +6,12 @@ import android.support.v4.app.FragmentManager;
 import android.text.Html;
 import android.view.Menu;
 
+import com.example.twitterclient.R;
 import com.example.twitterclient.fragments.ProfileFragment;
 import com.example.twitterclient.models.User;
-import com.example.twitterclient.util.Constants;
-import com.example.twitterclient.util.FragmentInterface;
+import com.example.twitterclient.util.BaseFragmentInterface;
 
-public class ProfileActivity extends FragmentActivity implements FragmentInterface {
+public class ProfileActivity extends FragmentActivity implements BaseFragmentInterface {
 	
 	// Instance variables
 	private FragmentManager fragmentManager;
@@ -24,7 +24,7 @@ public class ProfileActivity extends FragmentActivity implements FragmentInterfa
 		setContentView(R.layout.activity_profile);
 		
 		// Pass the user object to the underlying fragments 
-		User user = (User) getIntent().getSerializableExtra(Constants.userExtra);		
+		User user = (User) getIntent().getSerializableExtra(TimelineActivity.userExtra);		
 
 		fragmentManager = getSupportFragmentManager();
 		fts = fragmentManager.beginTransaction();		

@@ -14,19 +14,16 @@ import android.widget.Toast;
 
 import com.example.twitterclient.MainApp;
 import com.example.twitterclient.R;
-import com.example.twitterclient.TweetsAdapter;
+import com.example.twitterclient.adapters.TweetsAdapter;
 import com.example.twitterclient.models.Tweet;
 import com.example.twitterclient.util.Constants;
 import com.example.twitterclient.util.EndlessScrollListener;
-import com.example.twitterclient.util.FragmentInterface;
+import com.example.twitterclient.util.BaseFragmentInterface;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import eu.erikw.PullToRefreshListView;
 import eu.erikw.PullToRefreshListView.OnRefreshListener;
 
-/*
-public abstract class TimelineFragment extends Fragment {
-*/
 public class TimelineFragment extends Fragment {
 	
     // Views
@@ -40,7 +37,7 @@ public class TimelineFragment extends Fragment {
     private long minId = -1;
     private ArrayList<Tweet> tweets = new ArrayList<Tweet>();
     private Constants.FragmentType ft = Constants.FragmentType.HOME;  // Default
-    private FragmentInterface fragmentIfListener;
+    private BaseFragmentInterface fragmentIfListener;
 
 	private static String fragmentTypeCodeExtra = "fragmentTypeCode";
 
@@ -200,8 +197,8 @@ public class TimelineFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
     	super.onAttach(activity);
-		if (activity instanceof FragmentInterface) {
-			fragmentIfListener = (FragmentInterface) activity;
+		if (activity instanceof BaseFragmentInterface) {
+			fragmentIfListener = (BaseFragmentInterface) activity;
 		} else {
 			throw new ClassCastException(activity.toString() + " must implement FragmentInterface");
 		}

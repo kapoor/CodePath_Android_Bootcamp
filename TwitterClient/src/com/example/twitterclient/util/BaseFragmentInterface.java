@@ -1,6 +1,6 @@
 package com.example.twitterclient.util;
 
-public interface FragmentInterface {
+public interface BaseFragmentInterface {
 	public void showProgressBar();
 	public void hideProgressBar();
 }

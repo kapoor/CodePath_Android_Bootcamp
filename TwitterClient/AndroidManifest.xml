@@ -25,7 +25,7 @@
 			android:value="1" />
 
 		<activity
-			android:name="com.example.twitterclient.LoginActivity"
+			android:name="com.example.twitterclient.activities.LoginActivity"
 			android:label="@string/app_name" >
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
@@ -44,15 +44,15 @@
 			</intent-filter>
 		</activity>
 		<activity
-			android:name="com.example.twitterclient.TimelineActivity"
+			android:name="com.example.twitterclient.activities.TimelineActivity"
 			android:label="@string/title_activity_timeline" >
 		</activity>
 		<activity
-			android:name="com.example.twitterclient.PostActivity"
+			android:name="com.example.twitterclient.activities.PostActivity"
 			android:label="@string/compose_tweet" >
 		</activity>
 		<activity
-			android:name="com.example.twitterclient.ProfileActivity"
+			android:name="com.example.twitterclient.activities.ProfileActivity"
 			android:label="@string/title_activity_profile" >
 		</activity>
 	</application>

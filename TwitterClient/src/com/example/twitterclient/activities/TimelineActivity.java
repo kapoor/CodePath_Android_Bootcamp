@@ -1,4 +1,4 @@
-package com.example.twitterclient;
+package com.example.twitterclient.activities;
 
 import org.json.JSONObject;
 
@@ -15,23 +15,27 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.widget.Toast;
 
+import com.example.twitterclient.MainApp;
+import com.example.twitterclient.R;
 import com.example.twitterclient.fragments.TimelineFragment;
 import com.example.twitterclient.models.User;
 import com.example.twitterclient.util.Constants;
-import com.example.twitterclient.util.FragmentInterface;
+import com.example.twitterclient.util.BaseFragmentInterface;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
-public class TimelineActivity extends FragmentActivity implements TabListener, FragmentInterface {
+public class TimelineActivity extends FragmentActivity implements TabListener, BaseFragmentInterface {
 
 	// Instance variables
 	//private static final String LOG_TAG = TimelineActivity.class.getName();
 	private static int REQUEST_CODE = 1;
     private User user;
     private short remainingHttpRequests = 0;
+	public static final String userExtra = "user";
 
     // Fragments
 	private FragmentManager fragmentManager;
 	private android.support.v4.app.FragmentTransaction fts;
+	private TimelineFragment currentFragment;
     
     
 	@Override
@@ -42,7 +46,7 @@ public class TimelineActivity extends FragmentActivity implements TabListener, F
 
 		setContentView(R.layout.activity_timeline);
 		
-		// TODO: Refactor all of these methods out
+		// TODO: Refactor all of these methods out into a base class
         setupViews();
         setupFragments();
         setupAdapters();
@@ -76,7 +80,7 @@ public class TimelineActivity extends FragmentActivity implements TabListener, F
     			.setTag("HomeTimelineFragment")
     			.setIcon(R.drawable.ic_tab_home)
     			.setTabListener(this);
-    	// TODO: Fix this
+    	// TODO: Fix this, see TODO above
     	//		.setTabListener(new SupportFragmentTabListener<TimelineFragment>(R.id.frame_container_timeline, this,
     	//				getString(R.string.home), TimelineFragment.class));
     	
@@ -85,7 +89,7 @@ public class TimelineActivity extends FragmentActivity implements TabListener, F
     			.setTag("MentionsTimelineFragment")
     			.setIcon(R.drawable.ic_tab_ampersand)
     			.setTabListener(this);
-    	// TODO: Fix this    	
+    	// TODO: Fix this, see TODO above
     	//		.setTabListener(new SupportFragmentTabListener<TimelineFragment>(R.id.frame_container_timeline, this,
     	//				getString(R.string.home), TimelineFragment.class));
     	
@@ -147,8 +151,10 @@ public class TimelineActivity extends FragmentActivity implements TabListener, F
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Get the results from preferences activity
-        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK){      
-            //reloadTweets();
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK){
+        	
+        	// Call the fragment's method to reload tweets
+        	currentFragment.reloadTweets();
         }
     }
     
@@ -162,21 +168,15 @@ public class TimelineActivity extends FragmentActivity implements TabListener, F
 
 	    
     public void onPostAction(MenuItem mi) {
-    	/*
 		Intent postIntent = new Intent();
-		//postIntent.putExtra("user", user.getScreenName());
-		//postIntent.putExtra("profileImageUrl", user.getProfileImageUrl());
-
-		postIntent.putExtra("user", user);
-		
+		postIntent.putExtra(userExtra, user);
 		postIntent.setClass(getApplicationContext(), PostActivity.class);
 		startActivityForResult(postIntent, REQUEST_CODE);
-		*/
     }
 
     public void onProfileViewAction(MenuItem mi) {
 		Intent profileIntent = new Intent(this, ProfileActivity.class);
-		profileIntent.putExtra(Constants.userExtra, user);
+		profileIntent.putExtra(userExtra, user);
 		startActivity(profileIntent);
     }
 
@@ -186,10 +186,12 @@ public class TimelineActivity extends FragmentActivity implements TabListener, F
 		fts = fragmentManager.beginTransaction();
 		
 		if(tab.getTag() == "HomeTimelineFragment") {
-			fts.replace(R.id.frame_container_timeline, TimelineFragment.newInstance(Constants.FragmentType.HOME));
+			currentFragment = TimelineFragment.newInstance(Constants.FragmentType.HOME);
+			fts.replace(R.id.frame_container_timeline, currentFragment);
 		}
 		else {
-			fts.replace(R.id.frame_container_timeline, TimelineFragment.newInstance(Constants.FragmentType.MENTIONS));
+			currentFragment = TimelineFragment.newInstance(Constants.FragmentType.MENTIONS);
+			fts.replace(R.id.frame_container_timeline, currentFragment);
 		}
 		
 		fts.commit();

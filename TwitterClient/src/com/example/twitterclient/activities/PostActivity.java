@@ -1,4 +1,4 @@
-package com.example.twitterclient;
+package com.example.twitterclient.activities;
 
 import org.json.JSONObject;
 
@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.twitterclient.MainApp;
+import com.example.twitterclient.R;
 import com.example.twitterclient.models.Tweet;
 import com.example.twitterclient.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -40,12 +42,12 @@ public class PostActivity extends Activity {
 
         setupViews();
 
+        addListeners();
+
         // Setup data
-        User user = (User) getIntent().getSerializableExtra("user");
+        User user = (User) getIntent().getSerializableExtra(TimelineActivity.userExtra);
 		tvUser.setText('@' + user.getScreenName());
 		ImageLoader.getInstance().displayImage(user.getProfileImageUrl(), ivUserProfile);
-		
-        addListeners();
 	}
     
     private void setupViews() {

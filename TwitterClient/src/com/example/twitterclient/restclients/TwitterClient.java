@@ -1,4 +1,4 @@
-package com.example.twitterclient;
+package com.example.twitterclient.restclients;
 
 import org.scribe.builder.api.Api;
 import org.scribe.builder.api.TwitterApi;
