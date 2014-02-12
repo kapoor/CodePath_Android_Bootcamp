@@ -38,26 +38,17 @@ public class ProfileActivity extends FragmentActivity implements BaseFragmentInt
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_profile);
-		
-		/* Suggested approach
-		// Pass the user object to the underlying fragments
-		long userId = (Long) getIntent().getSerializableExtra(TimelineActivity.userIdExtra);		
-		String screenName = (String) getIntent().getSerializableExtra(TimelineActivity.screenNameExtra);
-		*/
 
 		setupViews();
 		
 		user = (User) getIntent().getSerializableExtra(TimelineActivity.userExtra);
 		
 		// Set the ActionBar title
-		/* getActionBar().setTitle(Html.fromHtml(" <small><font color='#777777'>@" + screenName + "</font></small>")); */
 		getActionBar().setTitle(Html.fromHtml(" <small><font color='#777777'>@" + user.getScreenName() + "</font></small>"));
-		
-		populateProfileHeader();
+		setProfileDetails();
 		
 		// Load the fragment
 		FragmentTransaction fts = getSupportFragmentManager().beginTransaction();
-		/* TimelineFragment timelineFragment = TimelineFragment.newUserInstance(Constants.FragmentType.USER, userId); */
 		TimelineFragment timelineFragment = TimelineFragment.newUserInstance(Constants.FragmentType.USER, user.getUserId());
 		fts.replace(R.id.frame_container_profile_timeline, timelineFragment);
 		fts.commit();
@@ -71,7 +62,7 @@ public class ProfileActivity extends FragmentActivity implements BaseFragmentInt
         ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
     }
     
-	private void populateProfileHeader() {
+	private void setProfileDetails() {
 		tvUser.setText(user.getName());
 		tvTagline.setText(user.getTagline());
 		tvFollowers.setText(user.getFollowersCount() + " Followers");

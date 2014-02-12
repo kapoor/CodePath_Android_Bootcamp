@@ -61,11 +61,6 @@ public class TweetsAdapter extends ArrayAdapter<Tweet>{
 		bodyView.setText(Html.fromHtml(tweet.getBody()));
 		timestampView.setText(tweet.getRelativeTimeSpanString());
 
-		/* Suggested approach
-		imageView.setTag(getContext().getResources().getIdentifier(Integer.toString(R.id.user_id_image_view_tag), "id", getContext().getPackageName()), tweet.getUser().getUserId());
-		imageView.setTag(getContext().getResources().getIdentifier(Integer.toString(R.id.screen_name_image_view_tag), "id", getContext().getPackageName()), tweet.getUser().getScreenName());
-		*/
-		
 		// TODO: From helpful hints:
 		// Use the setTag method to store the username of the user within the tag of the ImageView.
 		// Now you need to use setOnClickListener on the ImageView to launch the ProfileActivity
@@ -74,14 +69,6 @@ public class TweetsAdapter extends ArrayAdapter<Tweet>{
 			@Override
 			public void onClick(View v) {
 				Intent profileIntent = new Intent(getContext(), ProfileActivity.class);
-			
-				/*
-				long uidExtra = (Long)imageView.getTag(getContext().getResources().getIdentifier(Integer.toString(R.id.user_id_image_view_tag), "id", getContext().getPackageName()));
-				String snExtra = (String)imageView.getTag(getContext().getResources().getIdentifier(Integer.toString(R.id.screen_name_image_view_tag), "id", getContext().getPackageName()));
-
-				profileIntent.putExtra(TimelineActivity.userIdExtra, uidExtra);
-				profileIntent.putExtra(TimelineActivity.screenNameExtra, snExtra);
-				*/
 				profileIntent.putExtra(TimelineActivity.userExtra, tweet.getUser());
 				getContext().startActivity(profileIntent);
 			}
