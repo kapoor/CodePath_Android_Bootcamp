@@ -65,17 +65,17 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:text="@string/total_following" />
-        
+	        
     </LinearLayout>
 
-    <fragment
-        android:id="@+id/fragmentUserTimeline"
-        android:name="com.example.twitterclient.fragments.TimelineFragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/llCounts"
-        android:layout="@layout/fragment_timeline"
-        tools:layout="@layout/fragment_timeline" />
+    <FrameLayout
+    	android:id="@+id/frame_container_profile_timeline"
+    	android:layout_width="fill_parent"
+    	android:layout_height="fill_parent"
+    	android:layout_alignParentBottom="true"
+    	android:layout_alignParentLeft="true"
+    	android:layout_below="@+id/llCounts" >
 
+    </FrameLayout>
+    
 </RelativeLayout>

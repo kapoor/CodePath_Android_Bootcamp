@@ -16,9 +16,9 @@ import com.example.twitterclient.MainApp;
 import com.example.twitterclient.R;
 import com.example.twitterclient.adapters.TweetsAdapter;
 import com.example.twitterclient.models.Tweet;
+import com.example.twitterclient.util.BaseFragmentInterface;
 import com.example.twitterclient.util.Constants;
 import com.example.twitterclient.util.EndlessScrollListener;
-import com.example.twitterclient.util.BaseFragmentInterface;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import eu.erikw.PullToRefreshListView;
@@ -35,11 +35,13 @@ public class TimelineFragment extends Fragment {
 
 	// Instance variables
     private long minId = -1;
+    private long userId = -1;
     private ArrayList<Tweet> tweets = new ArrayList<Tweet>();
     private Constants.FragmentType ft = Constants.FragmentType.HOME;  // Default
     private BaseFragmentInterface fragmentIfListener;
 
 	private static String fragmentTypeCodeExtra = "fragmentTypeCode";
+	private static String userIdExtra = "userId";
 
     public void setFragmentType(Constants.FragmentType inFT) {
     	ft = inFT;
@@ -57,6 +59,15 @@ public class TimelineFragment extends Fragment {
 		TimelineFragment tlf = new TimelineFragment();
 		Bundle args = new Bundle();
 		args.putSerializable(fragmentTypeCodeExtra, inFT);
+		tlf.setArguments(args);
+		return tlf;
+	}
+	
+	public static TimelineFragment newUserInstance(Constants.FragmentType inFT, long userId) {
+		TimelineFragment tlf = new TimelineFragment();
+		Bundle args = new Bundle();
+		args.putSerializable(fragmentTypeCodeExtra, inFT);
+		args.putLong(userIdExtra, userId);
 		tlf.setArguments(args);
 		return tlf;
 	}
@@ -167,7 +178,7 @@ public class TimelineFragment extends Fragment {
         	MainApp.getRestClient().getMentionsTimeline(minId, responseHandler);
         	break;
         case USER:
-        	MainApp.getRestClient().getUserTimeline(minId, responseHandler);
+        	MainApp.getRestClient().getUserTimeline(minId, userId, responseHandler);
         	break;
         }
 	}
@@ -177,6 +188,7 @@ public class TimelineFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		ft = (Constants.FragmentType) getArguments().getSerializable(fragmentTypeCodeExtra);
+		userId = getArguments().getLong(userIdExtra);
 	}
 	
 	//NOTE: Use this for view related items
@@ -200,7 +212,7 @@ public class TimelineFragment extends Fragment {
 		if (activity instanceof BaseFragmentInterface) {
 			fragmentIfListener = (BaseFragmentInterface) activity;
 		} else {
-			throw new ClassCastException(activity.toString() + " must implement FragmentInterface");
+			throw new ClassCastException(activity.toString() + " must implement BaseFragmentInterface");
 		}
     }
 
