@@ -14,28 +14,46 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:text="@string/hello_world" />
-	
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView1"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/button1"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/simple_green_bg" >
 
-    </RelativeLayout>
+	<RelativeLayout
+		android:id="@+id/relativeLayout1"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignLeft="@+id/textView1"
+		android:layout_alignParentBottom="true"
+		android:layout_alignParentRight="true"
+		android:layout_below="@+id/button1"
+		android:layout_marginTop="50dp"
+		android:background="@drawable/simple_green_bg" >
+	</RelativeLayout>
 
-    <Button
-    	android:id="@+id/button1"
-    	android:layout_width="wrap_content"
-    	android:layout_height="wrap_content"
-    	android:layout_below="@+id/textView1"
-    	android:layout_centerHorizontal="true"
-    	android:textColor="#1485CC"
-    	android:layout_marginTop="22dp"
-    	android:background="@drawable/states_nice_button"
-    	android:text="Button" />
-	
+	<Button
+		android:id="@+id/Button01"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_above="@+id/relativeLayout1"
+		android:layout_marginLeft="16dp"
+		android:layout_toRightOf="@+id/button1"
+		style="@style/NiceButton"
+		android:text="Button1" />
+
+	<Button
+		android:id="@+id/button1"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignLeft="@+id/textView1"
+		android:layout_below="@+id/textView1"
+		android:layout_marginTop="26dp"
+        style="@style/NiceButton"
+		android:text="Button2" />
+
+	<Button
+		android:id="@+id/Button02"
+		style="@style/NiceButton.Large"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignRight="@+id/relativeLayout1"
+		android:layout_below="@+id/Button01"
+		android:text="Button3" />
+
 </RelativeLayout>

@@ -6,6 +6,20 @@
 	-->
 	<style name="AppBaseTheme" parent="android:Theme.Holo.Light">
 		<!-- API 11 theme customizations can go here. -->
+		
+		
+		
+		<!-- !!!! NOTE NOTE NOTE NOTE !!!! -->
+        <!-- This will apply the style to ALL new buttons created.
+              There are about 18K themes, get the one that you want from here:
+              http://omapzoom.org/?p=platform/frameworks/base.git;a=blob;f=core/res/res/values/themes.xml;hb=master --> 
+        
+        <item name="android:buttonStyle">@style/NiceButton</item>
+
+        <!-- !!!! NOTE NOTE NOTE NOTE !!!! -->
+        <!-- These button styles were introduced in API 11, so you have to add this to ../values-11/styles.xml file -->
+        
+        
 	</style>
 
 </resources>
