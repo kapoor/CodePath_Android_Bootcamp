@@ -14,17 +14,28 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:text="@string/hello_world" />
+	
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView1"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/button1"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/simple_green_bg" >
 
-	<RelativeLayout
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignLeft="@+id/textView1"
-		android:layout_alignParentBottom="true"
-		android:layout_alignParentRight="true"
-		android:layout_below="@+id/textView1"
-		android:layout_marginTop="120dp"
-		android:background="@drawable/simple_green_bg" >
+    </RelativeLayout>
 
-	</RelativeLayout>
-
+    <Button
+    	android:id="@+id/button1"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:layout_below="@+id/textView1"
+    	android:layout_centerHorizontal="true"
+    	android:textColor="#1485CC"
+    	android:layout_marginTop="22dp"
+    	android:background="@drawable/states_nice_button"
+    	android:text="Button" />
+	
 </RelativeLayout>
