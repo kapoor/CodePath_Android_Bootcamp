@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<string name="app_name">NavigationDrawerDemo</string>
+	<string name="action_settings">Settings</string>
+	<string name="hello_world">Hello world!</string>
+
+	<string name="long_text">
+
+<![CDATA[
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor, nibh non pellentesque dapibus, eros lacus molestie est, ut tincidunt neque purus ullamcorper turpis. Sed mollis neque vulputate risus gravida, in porttitor justo vehicula. Mauris non elit et urna adipiscing ornare mollis a libero. Duis vel quam molestie, sagittis tortor non, sagittis arcu. Curabitur vel sagittis ipsum, in malesuada nulla. Nulla rutrum eu nisl vitae tristique. Morbi dignissim commodo justo, quis blandit dui consectetur rhoncus. Donec at pretium erat. Aenean eu tortor suscipit, convallis felis in, porta quam. Aenean a lectus bibendum, consectetur lorem suscipit, interdum libero. Duis sed ultricies dui. Ut convallis nibh et augue cursus hendrerit. Ut adipiscing sem sed dui faucibus eleifend. Cras facilisis nisl urna, eget rhoncus nibh fringilla quis. Mauris vel velit eget tortor vestibulum consequat sit amet id tortor. Aliquam arcu ante, tincidunt ac condimentum vel, molestie ut magna.
+Integer venenatis ac arcu non pellentesque. Nam ante eros, sodales sit amet lacus sit amet, euismod lacinia est. Nam condimentum aliquet massa id mattis. Nulla hendrerit diam eget vehicula ullamcorper. Duis blandit ac velit eget luctus. Ut vel massa ac justo pulvinar imperdiet a eu lectus. Nam ullamcorper lacus ac nisl laoreet tristique. Pellentesque quis purus in odio placerat consectetur in et velit. Integer ac urna in quam sodales sollicitudin. Sed a consectetur lacus. Curabitur non nunc eleifend, pharetra sem quis, imperdiet velit. In hac habitasse platea dictumst.
+Donec vehicula mi quam. Integer tincidunt lobortis dapibus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Maecenas vel nunc eu leo ultricies tempor. Aenean tortor nisl, pharetra et tristique ut, fermentum at arcu. Nullam in mattis orci, at commodo ligula. Morbi laoreet blandit enim, quis vulputate metus dapibus vitae. Fusce sit amet nulla in dolor imperdiet adipiscing tempor eu nisi.
+]]>
+	</string>
+
+    <string name="drawer_open">Open</string>
+	<string name="drawer_close">Close</string>
+    
+</resources>
