@@ -13,7 +13,7 @@ public class MainActivity extends FragmentActivity {
 		setContentView(R.layout.activity_main);
 		
 		FragmentTransaction fts = getSupportFragmentManager().beginTransaction();
-		fts.replace(R.id.frameLayout, new FirstFragment());
+		fts.replace(R.id.flContent, new FirstFragment());
 		fts.commit();
 	}
 
