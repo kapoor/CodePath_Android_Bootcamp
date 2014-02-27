@@ -44,6 +44,9 @@ public class MainActivity extends Activity {
 		// so when the first one finishes, you can do another one.. like you can
 		// do a slide followed by a bounce
 
+		// Animations need at least API level 14. But to have it supported on older
+		// platforms, you can do it using NineOldAndroids (mentioned here:
+		// 		https://github.com/thecodepath/android_guides/wiki/Animations
 		btnAnimate.animate().alpha(0.5f).rotation(90f).scaleX(1.2f).xBy(100)
 			.yBy(100).setDuration(1000).setStartDelay(10).setListener(new AnimatorListenerAdapter() {
 				
