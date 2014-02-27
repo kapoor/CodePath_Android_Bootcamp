@@ -23,6 +23,22 @@ public class MainActivity extends FragmentActivity {
 		messages.add("Message 1");
 		messages.add("Message 2");
 		messages.add("Message 3");
+		messages.add("Message 4");
+		messages.add("Message 5");
+		messages.add("Message 6");
+		messages.add("Message 7");
+		messages.add("Message 8");
+		messages.add("Message 9");
+		messages.add("Message 10");
+		messages.add("Message 11");
+		messages.add("Message 12");
+		messages.add("Message 13");
+		messages.add("Message 14");
+		messages.add("Message 15");
+		messages.add("Message 16");
+		messages.add("Message 17");
+		messages.add("Message 18");
+		
 		
         lvMessages = (ListView) findViewById(R.id.lvMessages);
         adapterMessages = new MessageAdapter(this, messages);
