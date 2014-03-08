@@ -1,5 +1,8 @@
 package com.parse.integratingfacebooktutorial;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -18,8 +21,10 @@ import com.facebook.FacebookOperationCanceledException;
 import com.facebook.FacebookRequestError;
 import com.facebook.HttpMethod;
 import com.facebook.Request;
+import com.facebook.RequestAsyncTask;
 import com.facebook.Response;
 import com.facebook.Session;
+import com.facebook.Session.NewPermissionsRequest;
 import com.facebook.model.GraphObject;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.ProfilePictureView;
@@ -79,6 +84,10 @@ public class UserDetailsActivity extends Activity {
 		        sendRequestDialog();        
 		    }
 		});
+		
+		
+		postToWall("8367311");
+
 		
 		// Check for an incoming notification. Save the info
 	    Uri intentUri = getIntent().getData();
@@ -169,10 +178,7 @@ public class UserDetailsActivity extends Activity {
 										"The facebook session was invalidated.");
 								onLogoutButtonClicked();
 							} else {
-								Log.d(IntegratingFacebookTutorialApplication.TAG,
-										"Some other error: "
-												+ response.getError()
-														.getErrorMessage());
+								Log.d(IntegratingFacebookTutorialApplication.TAG, "Some other error: " + response.getError() .getErrorMessage());
 							}
 						}
 					}
@@ -349,6 +355,64 @@ public class UserDetailsActivity extends Activity {
 	        });
 	    // Execute the request asynchronously.
 	    Request.executeBatchAsync(request);
+	}
+
+	protected void postToWall(final String userId)
+	{
+		// Tutorial: https://developers.facebook.com/docs/reference/dialogs/feed/
+		
+		/*
+			// Using Feed dialog - this asks the poster to fill in something and actually send it to the user
+		try {
+			Bundle params = new Bundle();
+			params.putString("name", "Facebook SDK for Android");// title
+			params.putString("caption",
+					"Build great social apps and get more installs.");// caption
+			params.putString(
+					"description",
+					"The Facebook SDK for Android makes it easier and faster to develop Facebook integrated Android apps.");
+			params.putString("to", userId);
+
+			WebDialog feedDialog = (new WebDialog.FeedDialogBuilder(
+					UserDetailsActivity.this,
+					Session.getActiveSession(), params)).setOnCompleteListener(
+					null).build();
+			feedDialog.show();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		*/
+		
+
+		// NOT WORKING RIGHT NOW
+		final Bundle _postParameter = new Bundle();
+		 _postParameter.putString("name", "My name");
+		 _postParameter.putString("link", "http://testapp.com");
+		 _postParameter.putString("picture", "https://www.gravatar.com/avatar/81b7961fd397b3957516277400e5ae2e?s=32&d=identicon&r=PG");
+		 _postParameter.putString("caption", "Test caption");
+		 _postParameter.putString("description", "test description");
+
+		 final List<String> PERMISSIONS = Arrays.asList("publish_actions");
+
+		 if (Session.getActiveSession() != null)
+		 {
+		       NewPermissionsRequest reauthRequest = new Session.NewPermissionsRequest(this, PERMISSIONS);
+		       Session.getActiveSession().requestNewPublishPermissions(reauthRequest);
+		 }
+
+		this.runOnUiThread(new Runnable()
+		{
+		    @Override
+		    public void run() 
+		    {
+		        Request request = new Request(Session.getActiveSession(), userId + "/feed", _postParameter, HttpMethod.POST);
+		        RequestAsyncTask task = new RequestAsyncTask(request);
+		        task.execute();
+		    }
+		});
+		
+		//TODO: Implement deep linking - when a user clicks on a chat link, it should take him into the chat
+		//	https://developers.facebook.com/docs/android/link-to-your-native-app/
 	}
 	
 	private void onLogoutButtonClicked() {
