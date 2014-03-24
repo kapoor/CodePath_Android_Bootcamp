@@ -7,10 +7,19 @@
 
 # Java class files
 *.class
+*.jar
 
 # generated files
 bin/
 gen/
+
+# Mac files
+.DS_Store
+
+# Eclipse 
+.metadata/
+project.properties
+build.gradle
 
 # Local configuration file (sdk path, etc)
 local.properties
