@@ -13,20 +13,29 @@
 		</list>
 	</section>
 	<section name="WorkbenchPreferenceDialogSettings">
-		<item value="83" key="DIALOG_Y_ORIGIN"/>
-		<item value="380" key="DIALOG_X_ORIGIN"/>
+		<item value="73" key="DIALOG_Y_ORIGIN"/>
+		<item value="53" key="DIALOG_X_ORIGIN"/>
 	</section>
 	<section name="NewWizardAction">
-		<item value="com.android.ide.eclipse.adt.internal.assetstudio.CreateAssetSetWizard" key="NewWizardSelectionPage.STORE_SELECTED_ID"/>
+		<item value="com.android.ide.eclipse.editors.wizards.NewActivityWizard" key="NewWizardSelectionPage.STORE_SELECTED_ID"/>
 		<list key="NewWizardSelectionPage.STORE_EXPANDED_CATEGORIES_ID">
 			<item value="com.android.ide.eclipse.wizards.category"/>
 		</list>
 	</section>
+	<section name="ZipFileImportWizard">
+	</section>
+	<section name="EditorSelectionDialog">
+		<item value="false" key="EditorSelectionDialog.STORE_ID_INTERNAL_EXTERNAL"/>
+	</section>
 	<section name="ImportExportAction">
 		<item value="com.android.ide.eclipse.adt.project.ImportProjectWizard" key="ImportExportPage.STORE_SELECTED_IMPORT_WIZARD_ID"/>
+		<item value="org.eclipse.jdt.internal.ui.jarpackager.JarPackageWizard" key="ImportExportPage.STORE_SELECTED_EXPORT_WIZARD_ID"/>
 		<list key="ImportExportPage.STORE_EXPANDED_IMPORT_CATEGORIES">
 			<item value="org.eclipse.ui.Basic"/>
 			<item value="com.android.ide.eclipse.wizards.category"/>
+		</list>
+		<list key="ImportExportPage.STORE_EXPANDED_EXPORT_CATEGORIES">
+			<item value="org.eclipse.jdt.ui.Java"/>
 		</list>
 	</section>
 </section>

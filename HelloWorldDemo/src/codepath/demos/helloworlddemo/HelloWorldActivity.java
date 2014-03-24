@@ -13,6 +13,8 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 
+
+
 public class HelloWorldActivity extends Activity {
 
 	@Override
@@ -38,6 +40,14 @@ public class HelloWorldActivity extends Activity {
 		return;
 	}
 
+	/*
+	public void clicked(View v) {
+		Intent i = new Intent(this, HelloWorldActivity.class);
+		startActivity(i);
+	}
+	*/
+	
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.

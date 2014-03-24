@@ -26,7 +26,6 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 public class TimelineActivity extends FragmentActivity implements TabListener, BaseFragmentInterface {
 
 	// Instance variables
-	//private static final String LOG_TAG = TimelineActivity.class.getName();
 	private static int REQUEST_CODE = 1;
     private User user;
     private short remainingHttpRequests = 0;

@@ -2,25 +2,37 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="263" key="DIALOG_WIDTH"/>
-		<item value="173" key="DIALOG_Y_ORIGIN"/>
-		<item value="558" key="DIALOG_X_ORIGIN"/>
+		<item value="255" key="DIALOG_Y_ORIGIN"/>
 		<item value="399" key="DIALOG_HEIGHT"/>
+		<item value="980" key="DIALOG_X_ORIGIN"/>
 		<item value="1|Lucida Grande|11.0|0|COCOA|1|LucidaGrande" key="DIALOG_FONT_NAME"/>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="true" key="wrap"/>
-		<item value="false" key="casesensitive"/>
 		<item value="false" key="isRegEx"/>
+		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="    " key="selection"/>
+		<item value="PlaceholderFragment" key="selection"/>
 		<list key="findhistory">
-			<item value="&#x09;"/>
-			<item value="file"/>
-			<item value="onShareAction"/>
+			<item value="PlaceholderFragment"/>
+			<item value="Login"/>
+			<item value="learn"/>
+			<item value="session"/>
+			<item value="callback"/>
+			<item value="onSession"/>
+			<item value="location"/>
+			<item value="simple_"/>
 		</list>
 		<list key="replacehistory">
-			<item value="    "/>
+			<item value=""/>
+			<item value="frame_container_timeline"/>
+			<item value="rlHeader"/>
+			<item value="timestamp"/>
+			<item value="DateUtils"/>
+			<item value="isRefreshAction"/>
+			<item value="com.example"/>
+			<item value="tweetsAdapter"/>
 		</list>
 	</section>
 </section>

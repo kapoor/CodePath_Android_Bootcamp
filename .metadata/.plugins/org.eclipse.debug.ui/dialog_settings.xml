@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
+	<item value="553" key="org.eclipse.jdt.internal.debug.ui.actions.PopupInspectAction$2DIALOG_WIDTH"/>
+	<item value="356" key="org.eclipse.jdt.internal.debug.ui.actions.PopupInspectAction$2DIALOG_HEIGHT"/>
 	<section name="org.eclipse.debug.ui.SELECT_LAUNCH_SHORTCUT_DIALOG">
-		<item value="253" key="DIALOG_WIDTH"/>
+		<item value="388" key="DIALOG_WIDTH"/>
 		<item value="416" key="DIALOG_HEIGHT"/>
+		<item value="1|Lucida Grande|11.0|0|COCOA|1|LucidaGrande" key="DIALOG_FONT_NAME"/>
+	</section>
+	<section name="org.eclipse.debug.ui.SELECT_LAUNCH_CONFIGURATION_DIALOG">
+		<item value="253" key="DIALOG_WIDTH"/>
+		<item value="282" key="DIALOG_HEIGHT"/>
 		<item value="1|Lucida Grande|11.0|0|COCOA|1|LucidaGrande" key="DIALOG_FONT_NAME"/>
 	</section>
 </section>

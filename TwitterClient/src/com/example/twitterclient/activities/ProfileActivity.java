@@ -1,7 +1,5 @@
 package com.example.twitterclient.activities;
 
-import org.json.JSONObject;
-
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -9,15 +7,12 @@ import android.text.Html;
 import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.twitterclient.MainApp;
 import com.example.twitterclient.R;
 import com.example.twitterclient.fragments.TimelineFragment;
 import com.example.twitterclient.models.User;
 import com.example.twitterclient.util.BaseFragmentInterface;
 import com.example.twitterclient.util.Constants;
-import com.loopj.android.http.JsonHttpResponseHandler;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class ProfileActivity extends FragmentActivity implements BaseFragmentInterface {
